@@ -1,0 +1,105 @@
+{% extends 'base.html' %}
+
+{% block head %}
+<title>Enter new password</title>
+{% endblock %}
+
+{% block body %}
+{{ response }}
+<form>
+  <script src="https://js.paystack.co/v1/inline.js"></script>
+  <button type="button" onclick="payWithPaystack()"> Pay </button>
+</form>
+
+<script>
+  function payWithPaystack(){
+    var handler = PaystackPop.setup({
+      key: "{{ pk }}",
+      email: "{{ email }}",
+      amount: {{ amount }},
+      currency: "{{ currency }}",
+      // ref: ''+Math.floor((Math.random() * 1000000000) + 1),
+      // generates a pseudo-unique reference. Please replace with a
+      // reference you generated. Or remove the line entirely so our API
+      // will generate one for you
+      metadata: {
+         custom_fields: [
+            {
+                display_name: "Mobile Number",
+                variable_name: "mobile_number",
+                value: "+2348012345678"
+            }
+         ]
+      },
+      callback: function(response){
+        console.log(response)
+        $.ajax({
+          type: "POST",
+          url: "/sprout/payment_verification/",
+          data: {
+            "pay_ref": response.reference,
+            "csrfmiddlewaretoken": "{{csrf_token}}"
+          },
+          success: function(response){
+            window.location.href = "/sprout/"
+
+          // Doesn't "success" by default, mean response.status is true?
+          // Thus, why the need for the if statement below?
+          // Whereas the "onClose" means that success is False
+          // Or that the user closed the window
+          // Is it possible that Success is true but the user closes
+          // The window before the callback completes?
+          // What happens then? Webhook?
+          },
+        });
+      },
+      onClose: function(){
+          alert('window closed');
+      }
+    });
+    handler.openIframe();
+  }
+</script>
+
+<section class="fence">
+  <div id="title-block">
+    <h2>You are about to set aside $amount for $budget.
+      Confirm the details and proceed</h2>
+  </div>
+  <progress-bar></progress-bar>
+  <div id="main">
+    <div class="gap">
+    </div>
+    <div class="q-block">
+      <label class="bank">
+        <p class="acc-name">Budget name:</p>
+        Pocket Money
+      </label>
+    </div>
+    <div class="q-block">
+      <label class="bank">
+        <p class="acc-name">Amount to set aside</p>
+        &#8358; 20,000
+      </label>
+    </div>
+    <div class="q-block">
+      <label class="bank">
+        <p class="acc-name">Disbursement</p>
+        Every two weeks
+      </label>
+    </div>
+    <div class="q-block">
+      <label class="bank">
+        <p class="acc-name">Start date</p>
+        July 06, 2019
+      </label>
+    </div>
+    <div class="q-block">
+      <label class="bank">
+        <p class="acc-name">Linked account</p>
+        GTBank 0011223344
+      </label>
+    </div>
+  </div>
+</section>
+{% endblock %}

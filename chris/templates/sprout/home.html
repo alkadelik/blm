@@ -1,0 +1,106 @@
+{% extends 'base.html' %}
+
+{% block head %}
+<title>Home</title>
+{% endblock %}
+
+{% block body %}
+<form class="" id="" action="" method="POST">
+  {% csrf_token %}
+    <section v-show="step === 6" class="fence">
+      <div id="title-block">
+        <h2>Pocket Money</h2>
+      </div>
+      <div id="main">
+        <div class=""></div>
+        <div class="q-block">
+          <label class="bank">
+              <li>Created <span>01.01.2019</span></li>
+              <li>First disbursement <span>05.01.2019</span></li>
+              <li>Next disbursement <span>12.02.2019</span></li>
+              <li>Final disbursement <span>12.02.2019</span></li>
+              <li>Disbursement frequency <span>Weekly</span></li>
+              <li>Disbursement amount <span>&#8358; 20,000</span></li>
+              <li>Disbursed count<span>3 of 7</span></li>
+              <li>Disbursements left<span>4</span></li>
+              <li>Total number of disbursements<span>7</span></li>
+              <li>Linked bank account<span>0011223344 GTBank</span></li>
+              <li>Funded wiith<span>GTBank MasterCard 0124</span></li>
+              <li>Fund credentials<span>Adefirst Olafinal</span></li>
+              <li>Status<span>Ongoing</span></li>
+              <li>Total amount<span>&#8358; 100,000</span></li>
+          </label>
+        </div>
+      </div>
+    </section>
+    <section v-show="step === 3" class="fence">
+      <div id="title-block"></div>
+        <progress-bar></progress-bar>
+      <div id="main">
+        <div class="gap">
+        </div>
+        <div class="q-block">
+          <label for="">How frequently do you want $budget disbursed?
+            <label id="radio">Daily
+              <input type="radio" name="frequency" value=1>
+              <span class="checkmark"></span>
+            </label>
+            <label id="radio">Weekly
+              <input type="radio" name="frequency" value=2>
+              <span class="checkmark"></span>
+            </label>
+            <input type="text" name="freq_factor" value="" placeholder="freq factor">
+            <input type="text" name="pay_qty" value="" placeholder="Number of payments">
+          </label>
+        </div>
+      </div>
+    </section>
+    <section v-show="step === 2" class="fence">
+      <div id="title-block"></div>
+      <progress-bar></progress-bar>
+      <div id="main">
+        <div class="gap">
+        </div>
+        <div class="q-block">
+          <label>How do you want <span class="highlight">{{budget}}</span> disbursed back to you?</label>
+          <label id="radio">In one lump sum
+            <input type="radio" name="mode" value="1">
+            <span class="checkmark"></span>
+          </label>
+          <label id="radio">In multiple disbursements
+            <input type="radio" name="mode" value="0">
+            <span class="checkmark"></span>
+          </label>
+        </div>
+        <div class="q-block">
+          <label for="">What day do you want it disbursed?
+            <input class="input-date" type="date" name="next_date"  placeholder=>
+          </label>
+        </div>
+      </div>
+    </section>
+    <section v-show="step === 1" class="fence">
+        <div id="title-block"></div>
+        <progress-bar></progress-bar>
+        <div id="main">
+          <div class="gap"></div>
+          <div class="q-block">
+            <label for="">Name this budget
+              <input class="capitalise" type="text" name="title" value="" :maxlength="charmax" v-model="budget">
+              <div class="charcount" v-text="charcount()"></div>
+            </label>
+          </div>
+          <div class="q-block">
+            <label for="" class="curious-case">How much do you want to set aside for <span class="highlight">[[budget]]</span> now?
+              <input type="text" name="amount" value=""></label>
+          </div>
+        </div>
+    </section>
+    <div class="nav">
+      <button v-show="showprev" v-on:click.prevent="prev()" >Previous</button>
+      <button v-show="shownext" v-on:click.prevent="next()">Next</button>
+      <button v-show="showsubmit">Submit</button>
+      <!-- <button v-show="showsubmit" v-on:click.prevent="submit()">Submit</button> -->
+    </div>
+</form>
+{% endblock %}

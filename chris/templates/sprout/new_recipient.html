@@ -1,0 +1,114 @@
+{% extends 'base.html' %}
+
+{% block head %}
+<title>Home</title>
+{% endblock %}
+
+{% block body %}
+<h2>Existing banks</h2>
+
+<section class="fence">
+  <div id="title-block">
+    <h2>Link a bank account to receive disbursements</h2>
+  </div>
+  <progress-bar></progress-bar>
+  <div id="main">
+    <div class="gap">
+    </div>
+    <div class="q-block">
+      <label>Select bank <br>
+        <select class="" id="bank_code" name="">
+          {% for bank in banks %}
+          <option value="{{ bank.code }}">{{ bank.name }}</option>
+          {% endfor %}
+        </select>
+      </label>
+    </div>
+    <div class="q-block">
+      <label>Enter account number
+        <input type="" id="acc_no" maxlength="10" onkeyup="verify_acc()" value="">
+      </label>
+      {% block validation %}
+      <p id="validation"></p>
+      {% endblock %}
+    </div>
+    <button onclick="submit()" id="add_bank">Add Bank</button>
+  </div>
+</section>
+
+<script type="text/javascript">
+  var acc_no = document.getElementById("acc_no").value.trim();
+  var bank_code = document.getElementById("bank_code").value.trim();
+  // var bank_name = document.getElementById("bank_code").text;
+
+  // This should be returned by the API
+  // var holder_name = document.getElementById("bank_code").text.trim();
+
+  function submit(){
+    // if account validated do this:
+    var acc_no = document.getElementById("acc_no").value.trim();
+    var bank_code = document.getElementById("bank_code").value;
+    var bank_name = document.getElementById("bank_code").selectedOptions[0].text;
+
+    $.ajax({
+      type: "POST",
+      url: "/sprout/add_recipient/",
+      data: {
+        bank_code: bank_code,
+        bank_name: bank_name,
+        acc_no: acc_no,
+        user_id: "{{ user_id }}",
+        csrfmiddlewaretoken: "{{csrf_token}}"
+      },
+      success: function(){
+        window.location.href = "/sprout/pay"
+      }
+    });
+  }
+  //
+  function resolve_account(){
+    var acc_no = document.getElementById("acc_no").value.trim();
+    var bank_code = document.getElementById("bank_code").value.trim();
+    $.ajax({
+      type: "POST",
+      url: "/sprout/resolve_account/",
+      data: {
+        bank_code: bank_code,
+        acc_no: acc_no,
+        csrfmiddlewaretoken: "{{csrf_token}}"
+      }
+    });
+  };
+  //
+  // function print_validation(validation){
+  //   // $("#validation").text(data.validation);
+  //   console.log(validation);
+  // };
+
+  function verify_acc(){
+    var acc_no = document.getElementById("acc_no").value.trim();
+    var bank_code = document.getElementById("bank_code").value.trim();
+    // Update the condition to resolve account if there are 10 digits
+    // and bank then changes.
+    if (acc_no.length === 10) {
+      return resolve_account();
+      // console.log(bank_code)
+      // return resolve_account()//.then(function(){
+        // console.log(bank_code);
+        // return print_validation();
+      // });
+    }
+  }
+</script>
+
+<!-- <form method="post" id="add_recipient">
+  {% csrf_token %}
+  {{ form.as_p }}
+  <input type="submit"> Link Account </input>
+</form> -->
+
+
+
+
+
+{% endblock %}

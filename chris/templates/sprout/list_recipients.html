@@ -1,0 +1,131 @@
+{% extends 'base.html' %}
+
+{% block head %}
+<title>Home</title>
+{% endblock %}
+
+{% block body %}
+<h2>Existing banks</h2>
+<!-- <form action="/sprout/link_recipient/" method="post"> -->
+<form method="post">
+  {% csrf_token %}
+  {% for bank in banks %}
+  <input type="radio" name="bank" value="{{ bank.id }}">{{ bank.holder_name }} | {{ bank.acc_no }} | {{ bank.bank }} <br>
+  {% endfor %}
+  <button type="button" onclick="link_recipient()"> Link Recipient </button>
+</form>
+<a href="{% url "sprout:new_recipient" %}">
+  <button type="button">Add New Account</button>
+</a>
+<a>
+<!-- delete this -->
+<button type="button" onclick="transfer()">Test Transfer Recipient</button>
+</a>
+<script>
+  function transfer(){
+    $.ajax({
+      type: "POST",
+      url: "/sprout/transfer/",
+      data: {
+        "csrfmiddlewaretoken": "{{csrf_token}}"
+      },
+      success: function(response){
+        // window.location.href = "/sprout/pay";
+        window.location.href = "/sprout/list_recipients";
+      },
+    });
+  }
+  function link_recipient(){
+    var recipient = document.getElementsByName("bank");
+    for (var i=0, length = recipient.length; i<length; i++)
+    {
+      if (recipient[i].checked)
+      {
+        $.ajax({
+          type: "POST",
+          url: "/sprout/link_recipient/",
+          data: {
+            "recipient_id": recipient[i].value,
+            "csrfmiddlewaretoken": "{{csrf_token}}"
+          },
+          success: function(response){
+            window.location.href = "/sprout/pay";
+          },
+        });
+        break;
+      }
+    }
+  }
+</script>
+
+
+
+
+<form class="" action="index.html" method="post">
+    <section v-show="step === 5" class="fence">
+      <div id="title-block">
+        <h2>(For Payment) You are about to set aside $amount for $budget. Confirm the details and proceed</h2>
+      </div>
+      <progress-bar></progress-bar>
+      <div id="main">
+        <div class="gap">
+        </div>
+        <div class="q-block">
+          <label class="bank">
+            <p class="acc-name">Budget name:</p>
+            Pocket Money
+          </label>
+        </div>
+        <div class="q-block">
+          <label class="bank">
+            <p class="acc-name">Amount to set aside</p>
+            &#8358; 20,000
+          </label>
+        </div>
+        <div class="q-block">
+          <label class="bank">
+            <p class="acc-name">Disbursement</p>
+            Every two weeks
+          </label>
+        </div>
+        <div class="q-block">
+          <label class="bank">
+            <p class="acc-name">Start date</p>
+            July 06, 2019
+          </label>
+        </div>
+        <div class="q-block">
+          <label class="bank">
+            <p class="acc-name">Linked account</p>
+            GTBank 0011223344
+          </label>
+        </div>
+      </div>
+    </section>
+    <!-- this is the linking account section -->
+    <section class="fence">
+      <div id="title-block">
+        <h2>Link a bank account to receive disbursements</h2>
+      </div>
+      <progress-bar></progress-bar>
+      <div id="main">
+        <div class="gap">
+        </div>
+        <div class="q-block">
+          <label>Select bank
+            <option value="">Bank</option>
+          </label>
+        </div>
+        <div class="q-block">
+          <label>Enter account number
+            <input type="" name="" value="">
+          </label>
+          <p class="validation">validation</p>
+        </div>
+      </div>
+    </section>
+    <div class="nav">
+      <button type="submit">Submit</button>
+    </div>
+</form>
+{% endblock %}

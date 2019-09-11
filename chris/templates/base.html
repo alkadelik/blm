@@ -30,7 +30,9 @@
           </div>
           <div class="">
             <ul>
-              <li><a href="{% url "chris:settings" %}">Budgets</a></li>
+              <li><a href="{% url "sprout:budgets" %}">Budgets</a></li>
+              <!-- <li><a v-show="showprev" v-on:click.prevent="display_budgets()">Budgets</li> -->
+              <li><a v-on:click="display_budgets()">Budgets</li>
               <li><a href="{% url "chris:settings" %}">Verified cards</a></li>
               <li><a href="{% url "chris:settings" %}">Linked accounts</a></li>
               <li><a href="{% url "chris:settings" %}">Settings</a></li>

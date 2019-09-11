@@ -7,6 +7,7 @@ urlpatterns = [
     # url(r'^$', views.home, name="home"),
     url(r'^new_recipient/$', views.NewRecipient.as_view(), name="new_recipient"),
     url(r'^list_recipients/$', views.ListRecipients.as_view(), name="list_recipients"),
+    url(r'^budgets/$', views.Budgets.as_view(), name="budgets"),
     url(r'^link_recipient/$', views.link_recipient, name="link_recipient"),
     url(r'^pay/$', views.pay, name="pay"),
     url(r'^payment_verification/$', views.payment_verification, name="payment_verification"),

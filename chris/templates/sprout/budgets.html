@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+
+{% block head %}
+<title>Home</title>
+{% endblock %}
+
+{% block body %}
+<h2>Existing banks</h2>
+<!-- <form action="/sprout/link_recipient/" method="post"> -->
+{% csrf_token %}
+{% for budget in budgets %}
+{{ budget.id }} | {{ budget.title }}<br>
+{% endfor %}
+
+{% endblock %}

@@ -45,8 +45,8 @@ class Budget(models.Model):
 class Bank(models.Model):
     holder_name = models.CharField(max_length=55, default="") # The account holder's name
     bank = models.CharField(max_length=55, default="") # The name of the bank
-    bank_code = models.IntegerField(blank=True)
-    acc_no = models.IntegerField(blank=True) # The recipient (bank) account number
+    bank_code = models.CharField(max_length=4, blank=True) # This used to be an IntegerField but ALAT code, 035A contains a character
+    acc_no = models.CharField(max_length=10, blank=True) # The recipient (bank) account number
     created = models.DateTimeField(null=False)
     recipient_code = models.CharField(max_length=20, blank=False) # required by Paystack
     user = models.ForeignKey(User)

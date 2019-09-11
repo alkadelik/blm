@@ -145,7 +145,7 @@ def add_recipient(request):
         bank_name = request.POST["bank_name"]
         user_id = request.POST["user_id"] # Figure out the
             # best way to do this
-        holder_name = "Smith" # this should be from the validation
+        holder_name = "Bibi" # this should be from the validation
 
         # at this point, a transfer recipient should be created
         url = "https://api.paystack.co/transferrecipient"
@@ -206,13 +206,16 @@ def add_recipient(request):
 def link_recipient(request):
     if request.method == "POST":
         recipient_id = request.POST["recipient_id"]
+        print "the recipient id at top is: ", recipient_id
         # Improve below to get recipient_id from form rather than call
         # Bank table
         recipient = Bank.objects.get(id=recipient_id)
         recipient_code = recipient.recipient_code
+        print "before try, recipient code is: ", recipient_code
 
         try:
             budget_id = request.session["budget_id"]
+            print "the budget id inside try is: ", budget_id
             budget = Budget.objects.get(id=budget_id)
             budget.recipient_id = recipient_id
             budget.recipient_code = recipient_code
@@ -240,8 +243,9 @@ def pay(request):
         current_budget_id = request.session["budget_id"]
         budget = Budget.objects.get(id=current_budget_id)
         user = request.user
-        pk = "pk_test_9b841d2e67007aeca304a57442891a06ad312ece"
-        email = "user@sprout.com" # should be user's email
+        # pk = "pk_test_9b841d2e67007aeca304a57442891a06ad312ece"
+        pk = "pk_live_163e7cf486ffc7c6458472600beea80901168692"
+        email = "another@blm.com" # should be user's email
         amount = budget.amount # price is always in kobo
         currency = "NGN"
 
@@ -261,6 +265,7 @@ def payment_verification(request):
     api = "https://api.paystack.co/transaction/verify/"
     headers = {
         'Authorization': "Bearer sk_test_7cb2764341285a8c91ec4ce0c979070188be9cce",
+        # 'Authorization': "Bearer sk_live_01ee65297a9ae5bdf8adbe9ae7cdf6163384a00e",
     }
 
     if request.method == "POST":
@@ -357,3 +362,15 @@ def transfer(request):
 
     return redirect(reverse("sprout:home"))
     # return render(request, "sprout/list_recipients.html")
+
+class Budgets(TemplateView):
+    template_name = "sprout/budgets.html"
+
+    def get(self, request):
+        user_id = request.user.id
+        budgets = Budget.objects.filter(user_id=user_id)
+
+        context = {
+            "budgets": budgets,
+        }
+        return render(request, self.template_name, context)

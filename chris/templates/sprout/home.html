@@ -33,7 +33,7 @@
         </div>
       </div>
     </section>
-    <section v-show="step === 3" class="fence">
+    <!-- <section v-show="step === 3" class="fence">
       <div id="title-block"></div>
         <progress-bar></progress-bar>
       <div id="main">
@@ -54,8 +54,8 @@
           </label>
         </div>
       </div>
-    </section>
-    <section v-show="step === 2" class="fence">
+    </section> -->
+    <!-- <section v-show="step === 2" class="fence">
       <div id="title-block"></div>
       <progress-bar></progress-bar>
       <div id="main">
@@ -78,7 +78,7 @@
           </label>
         </div>
       </div>
-    </section>
+    </section> -->
     <section v-show="step === 1" class="fence">
         <div id="title-block"></div>
         <progress-bar></progress-bar>
@@ -94,11 +94,16 @@
             <label for="" class="curious-case">How much do you want to set aside for <span class="highlight">[[budget]]</span> now?
               <input type="text" name="amount" value=""></label>
           </div>
+          <div class="q-block">
+            <label for="">What day do you want it disbursed?
+              <input class="input-date" type="date" name="next_date"  placeholder=>
+            </label>
+          </div>
         </div>
     </section>
     <div class="nav">
-      <button v-show="showprev" v-on:click.prevent="prev()" >Previous</button>
-      <button v-show="shownext" v-on:click.prevent="next()">Next</button>
+      <!-- <button v-show="showprev" v-on:click.prevent="prev()" >Previous</button> -->
+      <!-- <button v-show="shownext" v-on:click.prevent="next()">Next</button> -->
       <button v-show="showsubmit">Submit</button>
       <!-- <button v-show="showsubmit" v-on:click.prevent="submit()">Submit</button> -->
     </div>

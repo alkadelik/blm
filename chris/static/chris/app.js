@@ -20,7 +20,7 @@ new Vue({
     // showprev: false,
     menu: false,
     shownext: true,
-    showsubmit: false,
+    showsubmit: true,
     budgets: false,
     linkedBanks: false,
     settings: false,

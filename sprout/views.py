@@ -27,11 +27,12 @@ class HomeView(TemplateView):
             # From form:
             amount = int(request.POST["amount"]) * 100 # amount always in kobo
             next_date = datetime.strptime(request.POST["next_date"], "%Y-%m-%d")
-            interval = ""
+            # interval = ""
 
             new_budget.title = request.POST["title"]
             new_budget.next_date = next_date
-            new_budget.mode = request.POST["mode"]
+            new_budget.mode = "1"
+            # new_budget.mode = request.POST["mode"]
             new_budget.amount = amount # have to override the entry from the model form
 
             if new_budget.mode == "1": # It means this is a one-off payment
@@ -43,30 +44,30 @@ class HomeView(TemplateView):
                 new_budget.pay_value = amount
                 new_budget.final_date = next_date
                 new_budget.save()
-            elif new_budget.mode == "0": # Multiple disburesments
-                pay_qty = int(request.POST["pay_qty"])
-                frequency = request.POST["frequency"]
-                freq_factor = int(request.POST["freq_factor"])
-
-                new_budget.freq_factor = freq_factor
-                new_budget.frequency = frequency
-                new_budget.pay_qty = pay_qty
-                new_budget.pay_value = amount/pay_qty
-                # The user may be confused as to how the math is done becuase quotient is being used
-                # pay_qty = amount//interval
-
-                # convert frequency to number of days (if days, weeks, or 30 days)
-                if frequency == "1":
-                    global interval
-                    interval = 1 * freq_factor
-                    new_budget.interval = interval
-                elif frequency == "2":
-                    global interval
-                    interval = 7 * freq_factor
-                    new_budget.interval = interval
-
-                new_budget.final_date = next_date + timedelta(days=(interval*(pay_qty-1)))
-                new_budget.save()
+            # elif new_budget.mode == "0": # Multiple disburesments
+            #     pay_qty = int(request.POST["pay_qty"])
+            #     frequency = request.POST["frequency"]
+            #     freq_factor = int(request.POST["freq_factor"])
+            #
+            #     new_budget.freq_factor = freq_factor
+            #     new_budget.frequency = frequency
+            #     new_budget.pay_qty = pay_qty
+            #     new_budget.pay_value = amount/pay_qty
+            #     # The user may be confused as to how the math is done becuase quotient is being used
+            #     # pay_qty = amount//interval
+            #
+            #     # convert frequency to number of days (if days, weeks, or 30 days)
+            #     if frequency == "1":
+            #         global interval
+            #         interval = 1 * freq_factor
+            #         new_budget.interval = interval
+            #     elif frequency == "2":
+            #         global interval
+            #         interval = 7 * freq_factor
+            #         new_budget.interval = interval
+            #
+            #     new_budget.final_date = next_date + timedelta(days=(interval*(pay_qty-1)))
+            #     new_budget.save()
 
             request.session["budget_id"] = new_budget.id
             print request.session["budget_id"]
@@ -264,8 +265,8 @@ def pay(request):
 def payment_verification(request):
     api = "https://api.paystack.co/transaction/verify/"
     headers = {
-        'Authorization': "Bearer sk_test_7cb2764341285a8c91ec4ce0c979070188be9cce",
-        # 'Authorization': "Bearer sk_live_01ee65297a9ae5bdf8adbe9ae7cdf6163384a00e",
+        # 'Authorization': "Bearer sk_test_7cb2764341285a8c91ec4ce0c979070188be9cce",
+        'Authorization': "Bearer sk_live_01ee65297a9ae5bdf8adbe9ae7cdf6163384a00e",
     }
 
     if request.method == "POST":

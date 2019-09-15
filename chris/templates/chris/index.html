@@ -6,19 +6,19 @@
 
 {% block body %}
 <div id="index">
-  <div class="identity">
-    <h1>Bare Necessities</h1>
+  <div class="identity identity-space">
+    <h1>Budget Like Magic</h1>
     <form method="post">
       {% csrf_token %}
       {{ form.as_p }}
       <button type="submit">Log In</button>
     </form>
-    <input type="text" name="" value="" placeholder="Email address">
-    <input type="password" name="" value="" placeholder="Password">
-    <p class="forgot">
+    <!-- <input type="text" name="" value="" placeholder="Email address">
+    <input type="password" name="" value="" placeholder="Password"> -->
+    <p class="forgot-password">
       <a href="{% url 'chris:reset_password' %}">Forgot Password?</a>
     </p>
-    <button type="submit">Log In</button>
+    <!-- <button type="submit">Log In</button> -->
     <p><a href="{% url 'chris:register' %}">Don't have an account? Register</a></p>
   </div>
 </div>

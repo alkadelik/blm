@@ -49,6 +49,13 @@ h2 {
   padding: 10px;
   border: none;
 }
+.identity label {
+  font-size: 16px;
+}
+.identity-space button {
+  position: relative;
+  top: 30px;
+}
 .identity button {
   background-color: #893747;
   width: 300px;
@@ -58,13 +65,17 @@ h2 {
   color: #FFF;
   font-size: 0.8em;
 }
-.forgot {
+.forgot-password {
+  position: relative;
+  top: -55px;
   text-align: right;
   margin: 10px 0 20px 0;
 }
 #app {
   position: relative;
-  width: 360px;
+  width: 100%;
+  /* min-width: 360px; */
+  max-width: 360px;
   margin: 0 auto;
   /* padding: 0 20px; */
   background-color: #E1848C;

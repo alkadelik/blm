@@ -2,6 +2,9 @@ from django import forms
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm, UserChangeForm
 
+# from django.contrib.auth.forms import AuthenticationForm
+# from django.forms.widgets import PasswordInput, TextInput
+
 # The fields in this form are not in the model
 # See tutorial 16 Max Goodridge Django tutorials
 #
@@ -29,6 +32,11 @@ from django.contrib.auth.forms import UserCreationForm, UserChangeForm
 #             user.save()
 #
 #         return user
+
+# Used with AuthenticationForm
+# class CustomAuthForm(AuthenticationForm):
+#     username = forms.CharField(widget=TextInput(attrs={"class":"validate", "placeholder": "Email"}))
+#     password = forms.CharField(widget=PasswordInput(attrs={"placeholder": "Password"}))
 
 class EditProfileForm(UserChangeForm):
 

@@ -3,8 +3,9 @@ from __future__ import unicode_literals
 
 from django.shortcuts import redirect, render
 from django.contrib.auth.models import User
-from django.contrib.auth.forms import UserCreationForm, UserChangeForm, PasswordChangeForm
-from chris.forms import EditProfileForm # RegistrationForm
+from django.contrib.auth.forms import UserChangeForm, PasswordChangeForm
+# UserCreationForm - no longer required
+from chris.forms import EditProfileForm, RegistrationForm
 from django.contrib.auth import update_session_auth_hash
 from django.contrib.auth.decorators import login_required
 from django.urls import reverse
@@ -20,32 +21,32 @@ def login_redirect(request):
 def index(request):
     return reverse("login")
 
-def register(request):
-    if request.method == 'POST':
-        form = UserCreationForm(request.POST)
-        if form.is_valid():
-            form.save()
-            return redirect(reverse("sprout:home"))
-    else:
-        form = UserCreationForm()
-
-        context = {'form': form}
-        return render(request, 'chris/register.html', context)
-
-# This registers using a custom reg form - also commented out in forms
-# See tutorial 16 Max Goodridge Django tutorials
-#
 # def register(request):
 #     if request.method == 'POST':
-#         form = RegistrationForm(request.POST)
+#         form = UserCreationForm(request.POST)
 #         if form.is_valid():
 #             form.save()
-#             return redirect('/chris/home')
+#             return redirect(reverse("sprout:home"))
 #     else:
-#         form = RegistrationForm()
+#         form = UserCreationForm()
 #
 #         context = {'form': form}
 #         return render(request, 'chris/register.html', context)
+
+# This registers using a custom reg form - also commented out in forms
+# See tutorial 16 Max Goodridge Django tutorials
+
+def register(request):
+    if request.method == "POST":
+        form = RegistrationForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect("/sprout")
+    else:
+        form = RegistrationForm()
+
+        context = {'form': form}
+        return render(request, 'chris/register.html', context)
 
 # Moved to new app
 # def home(request):

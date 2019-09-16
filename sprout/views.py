@@ -368,10 +368,14 @@ class Budgets(TemplateView):
 
     def get(self, request):
         user_id = request.user.id
-        budgets = Budget.objects.filter(user_id=user_id)
+        my_budgets = Budget.objects.filter(user_id=user_id)
+        unfunded_budgets = my_budgets.filter(budget_status=0)
+        active_budgets = my_budgets.filter(budget_status__gte=1, budget_status__lt=3,)
+        finished_budgets = my_budgets.filter(budget_status=3)
 
         context = {
-            "budgets": budgets,
+            "my_budgets": my_budgets,
+            "active_budgets": active_budgets,
         }
         return render(request, self.template_name, context)
 

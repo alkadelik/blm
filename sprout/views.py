@@ -70,7 +70,6 @@ class HomeView(TemplateView):
             #     new_budget.save()
 
             request.session["budget_id"] = new_budget.id
-            print request.session["budget_id"]
 
             return redirect("sprout:list_recipients")
 
@@ -252,7 +251,7 @@ def pay(request):
 
         context = {
             "pk": pk,
-            "email": email,
+            "email": request.user.email,
             "amount": amount,
             "currency": currency,
         }
@@ -375,3 +374,12 @@ class Budgets(TemplateView):
             "budgets": budgets,
         }
         return render(request, self.template_name, context)
+
+def budget_details(request, budget_id):
+    if budget_id is not None:
+        budget = Budget.objects.get(id=budget_id)
+        if budget.user_id == request.user.id:
+            context = {"budget": budget}
+            return render(request, "sprout/budget_details.html", context)
+        else:
+            return redirect("sprout:budgets")

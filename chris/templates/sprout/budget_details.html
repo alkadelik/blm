@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+
+{% block head %}
+<title>Home</title>
+{% endblock %}
+
+{% block body %}
+<h2>{{ budget.title }}</h2>
+<p>Amount: {{ budget.amount }}</p>
+<p>Date due: {{ budget.next_date }}</p>
+<p>Date created: {{ budget.created}}</p>
+
+<br>
+
+{% endblock %}

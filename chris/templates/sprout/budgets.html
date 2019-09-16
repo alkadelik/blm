@@ -5,11 +5,13 @@
 {% endblock %}
 
 {% block body %}
-<h2>Existing banks</h2>
-<!-- <form action="/sprout/link_recipient/" method="post"> -->
+<h2>Your Budgets</h2>
+
 {% csrf_token %}
 {% for budget in budgets %}
-{{ budget.id }} | {{ budget.title }}<br>
+<span>{{ forloop.counter }}</span>.
+<a href="../budget_details/{{ budget.id }}">{{ budget.title }}</a><br>
+
 {% endfor %}
 
 {% endblock %}

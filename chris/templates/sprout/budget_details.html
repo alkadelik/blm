@@ -13,9 +13,17 @@
     <div class="gap"></div>
     <div class="q-block">
       <div class="budget">
-        <p>Amount: {{ budget.amount }}</p>
-        <p>Date due: {{ budget.next_date }}</p>
+        {{ budget.id }}
         <p>Date created: {{ budget.created}}</p>
+        <p>Total budget: ₦{{ budget.amount }}</p>
+        <p>Installment size: {{ budget.pay_value }}</p>
+        <p>First payment: {{ budget.next_date }}</p>
+        <p>Next payment: {{ budget.next_date }}</p>
+        <p>Disbursement frequency: </p>
+        <p>Disbursements: {{ budget.pay_count }} of {{ budget.pay_qty }}</p>
+        <p>Expense account: </p>
+        <p>Funded with: Card details</p>
+        <p>Budget status: {{ budget.budget_status}}</p>
       </div>
     </div>
 

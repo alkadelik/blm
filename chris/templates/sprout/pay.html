@@ -1,22 +1,61 @@
 {% extends 'base.html' %}
 
 {% block head %}
-<title>Enter new password</title>
+<title>Fund Budget</title>
 {% endblock %}
 
 {% block body %}
+<section class="fence">
+  <div id="title-block">
+    <h2>Fund Budget</h2>
+  </div>
+  <div id="main">
+    <div class="gap"></div>
+    <div class="q-block">
+      <div class="budget">
+        <p>You are about to fund your budget for <span class="highlight">{{ budget.title }}</span>
+        Confirm the details below click Pay fund it.</p>
+      </div>
+    </div>
+    <div class="q-block">
+      <div class="budget">
+          <p>Budget name: {{ budget.title }}</p>
+      </div>
+    </div>
+    <div class="q-block">
+      <div class="budget">
+          <p>Amount: ₦ {{ budget.amount }}</p>
+      </div>
+    </div>
+    <div class="q-block">
+      <div class="budget">
+          <p>Type: {{ mode }}</p>
+      </div>
+    </div>
+    <div class="q-block">
+      <div class="budget">
+          <p>Due date: {{ budget.next_date }}</p>
+      </div>
+    </div>
+    <div class="q-block">
+      <div class="budget">
+          <p>Linked account: {{ linked_account.bank }} | {{ linked_account.acc_no }}</p>
+      </div>
+    </div>
+    <form>
+      <p>This should be a swipe move for mobile devices</p>
+      <script src="https://js.paystack.co/v1/inline.js"></script>
+      <button type="button" onclick="payWithPaystack()"> Fund Budget </button>
+    </form>
+  </div>
+</section>
 {{ response }}
-<form>
-  <script src="https://js.paystack.co/v1/inline.js"></script>
-  <button type="button" onclick="payWithPaystack()"> Pay </button>
-</form>
-
 <script>
   function payWithPaystack(){
     var handler = PaystackPop.setup({
       key: "{{ pk }}",
       email: "{{ email }}",
-      amount: {{ amount }},
+      amount: {{ budget.amount }},
       currency: "{{ currency }}",
       // ref: ''+Math.floor((Math.random() * 1000000000) + 1),
       // generates a pseudo-unique reference. Please replace with a

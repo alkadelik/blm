@@ -4,7 +4,6 @@ from sprout import views
 
 urlpatterns = [
     url(r'^$', views.HomeView.as_view(), name="home"), # Used with class based view
-    # url(r'^$', views.home, name="home"),
     url(r'^new_recipient/$', views.NewRecipient.as_view(), name="new_recipient"),
     url(r'^list_recipients/$', views.ListRecipients.as_view(), name="list_recipients"),
     url(r'^budgets/$', views.Budgets.as_view(), name="budgets"),
@@ -15,5 +14,4 @@ urlpatterns = [
     url(r'^resolve_account/$', views.resolve_account, name="resolve_account"),
     url(r'^add_recipient/$', views.add_recipient, name="add_recipient"),
     url(r'^budget_details/(?P<budget_id>\d+)/$', views.budget_details, name="budget_details"),
-    # url(r'^budget_details/(?P<budget_id>\d+)/$', views.BudgetDetails.as_view(), name="budget_details"),
 ]

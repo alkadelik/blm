@@ -70,7 +70,6 @@ class HomeView(TemplateView):
             #     new_budget.save()
 
             request.session["budget_id"] = new_budget.id
-            print request.session["budget_id"]
 
             return redirect("sprout:list_recipients")
 
@@ -204,28 +203,6 @@ def add_recipient(request):
     return redirect("/sprout/")
     # return render(request, "sprout:new_recipient", context)
 
-def link_recipient(request):
-    if request.method == "POST":
-        recipient_id = request.POST["recipient_id"]
-        print "the recipient id at top is: ", recipient_id
-        # Improve below to get recipient_id from form rather than call
-        # Bank table
-        recipient = Bank.objects.get(id=recipient_id)
-        recipient_code = recipient.recipient_code
-        print "before try, recipient code is: ", recipient_code
-
-        try:
-            budget_id = request.session["budget_id"]
-            print "the budget id inside try is: ", budget_id
-            budget = Budget.objects.get(id=budget_id)
-            budget.recipient_id = recipient_id
-            budget.recipient_code = recipient_code
-            budget.save()
-            return redirect("sprout:pay")
-        except:
-            print "There is no budget to link recipient to"
-        return redirect("sprout:home")
-
 class ListRecipients(TemplateView):
     template_name = "sprout/list_recipients.html"
 
@@ -238,23 +215,53 @@ class ListRecipients(TemplateView):
         }
         return render(request, self.template_name, context)
 
+def link_recipient(request):
+    try:
+        budget_id = request.session["budget_id"]
+        if request.method == "POST":
+            recipient_id = request.POST["recipient_id"]
+            print "the recipient id at top is: ", recipient_id
+            # Improve below to get recipient_code from form rather than call
+            # Bank table
+            recipient = Bank.objects.get(id=recipient_id)
+            recipient_code = recipient.recipient_code
+            print "before try, recipient code is: ", recipient_code
+
+            print "the budget id inside try is: ", budget_id
+            # Is there a chance the budget already has a recipient_id and code?
+            budget = Budget.objects.get(id=budget_id)
+            budget.recipient_id = recipient_id
+            budget.recipient_code = recipient_code
+            budget.save()
+            return redirect("sprout:pay")
+    except:
+        print "There is no budget to link recipient to"
+    return redirect("sprout:home")
+
 def pay(request):
-    # request.session["budget_id"] = 22
     try:
         current_budget_id = request.session["budget_id"]
+        print current_budget_id
         budget = Budget.objects.get(id=current_budget_id)
         user = request.user
-        # pk = "pk_test_9b841d2e67007aeca304a57442891a06ad312ece"
-        pk = "pk_live_163e7cf486ffc7c6458472600beea80901168692"
-        email = "another@blm.com" # should be user's email
-        amount = budget.amount # price is always in kobo
-        currency = "NGN"
+
+        linked_account = Bank.objects.get(id=budget.recipient_id)
+        # print "recipient is: ", linked_account.acc_no
+
+        def mode():
+            if budget.mode == 1: # Single disbursement
+                return "One off"
+            elif budget.mode == 0: # Multiple disbursements
+                return "Multiple disbursements"
 
         context = {
-            "pk": pk,
-            "email": email,
-            "amount": amount,
-            "currency": currency,
+            # pk = "pk_test_9b841d2e67007aeca304a57442891a06ad312ece"
+            "pk": "pk_live_163e7cf486ffc7c6458472600beea80901168692",
+            "email": request.user.email,
+            "mode": mode(),
+            "currency": "NGN",
+            "budget": budget,
+            "linked_account": linked_account,
         }
     except:
         return redirect("sprout:home") # where else can this redirect?
@@ -369,9 +376,22 @@ class Budgets(TemplateView):
 
     def get(self, request):
         user_id = request.user.id
-        budgets = Budget.objects.filter(user_id=user_id)
+        my_budgets = Budget.objects.filter(user_id=user_id)
+        unfunded_budgets = my_budgets.filter(budget_status=0)
+        active_budgets = my_budgets.filter(budget_status__gte=1, budget_status__lt=3,)
+        finished_budgets = my_budgets.filter(budget_status=3)
 
         context = {
-            "budgets": budgets,
+            "my_budgets": my_budgets,
+            "active_budgets": active_budgets,
         }
         return render(request, self.template_name, context)
+
+def budget_details(request, budget_id):
+    if budget_id is not None:
+        budget = Budget.objects.get(id=budget_id)
+        if budget.user_id == request.user.id:
+            context = {"budget": budget}
+            return render(request, "sprout/budget_details.html", context)
+        else:
+            return redirect("sprout:budgets")

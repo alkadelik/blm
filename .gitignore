@@ -1,3 +1,5 @@
 settings.py
 DO_settings.py
 /\*.pyc
+blm/settings.py
+blm/__init__.py

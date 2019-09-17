@@ -8,30 +8,31 @@ from django.contrib.auth.forms import UserCreationForm, UserChangeForm
 # The fields in this form are not in the model
 # See tutorial 16 Max Goodridge Django tutorials
 #
-# class RegistrationForm(UserCreationForm):
-#     email = forms.EmailField(required=True)
+class RegistrationForm(UserCreationForm):
+    email = forms.EmailField(required=True)
 #
-#     class Meta:
-#         model = User
-#         fields = {
-#             'username',
-#             'first_name',
-#             'last_name',
-#             'email',
-#             'password1',
-#             'password2'
-#         }
-#
-#     def save(self, commit=True):
-#         user = suer(RegistrationForm, self).save(commit=False)
-#         user.first_name = self.cleaned_data['first_name']
-#         user.last_name = self.cleaned_data['last_name']
-#         user.email = self.cleaned_data['email']
-#
-#         if commit:
-#             user.save()
-#
-#         return user
+    class Meta:
+        model = User
+        fields = (
+            # 'username',
+            # 'first_name',
+            # 'last_name',
+            'email',
+            'password1',
+            'password2'
+        )
+
+    def save(self, commit=True):
+        user = super(RegistrationForm, self).save(commit=False)
+        # user.first_name = self.cleaned_data['first_name']
+        # user.last_name = self.cleaned_data['last_name']
+        user.email = self.cleaned_data['email']
+        user.username = user.email
+
+        if commit:
+            user.save()
+
+        return user
 
 # Used with AuthenticationForm
 # class CustomAuthForm(AuthenticationForm):

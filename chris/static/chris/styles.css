@@ -342,3 +342,12 @@ a.budget_title {
   color: inherit;
   text-decoration: none;
 }
+a.status_0 {
+  color: grey;
+}
+a.status_1, a.status_2 {
+  color: green;
+}
+a.status_3 {
+  color: brown;
+}

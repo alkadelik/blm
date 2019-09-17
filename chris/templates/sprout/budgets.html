@@ -14,7 +14,7 @@
       {% for budget in my_budgets|slice:":4" %}
       <div class="q-block">
         <div class="budget">
-          <a class="budget_title" href="../budget_details/{{ budget.id }}">{{ budget.title }}</a><br>
+          <a class="budget_title status_{{budget.budget_status}}" href="../budget_details/{{ budget.id }}">{{ budget.title }}</a><br>
           <ul class="">
             <li class="">₦{{ budget.amount }}   |</li>
             <li class="">{{ budget.next_date }}   |</li>

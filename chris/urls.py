@@ -11,6 +11,8 @@ from django.contrib.auth.views import (
 
 urlpatterns = [
     url(r'^$', views.login_redirect, name='login_redirect'),
+    url(r'^actiate/(?P<uidb64>[0-9A-Za-z_\-]+)/(?P<token>[0-9A-Za-z]{1,13}-[0-9A-Za-z]{1,20})/$',
+    views.activate, name="activate"),
     url(r'^index/$', login, {'template_name': 'chris/index.html'}, name="login"),
     url(r'^logout/$', logout, {'next_page': '../'}, name="logout"),
     url(r'^register/$', views.register, name='register'),

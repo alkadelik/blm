@@ -162,7 +162,7 @@ LOGIN_EXEMPT_URLS = (
 )
 
 EMAIL_USE_TLS = True
-EMAL_HOST = 'smtp.zoho.eu'
+EMAIL_HOST = 'smtp.zoho.eu'
 EMAIL_HOST_USER = 'blm@budgetlikemagic.com'
 EMAIL_HOST_PASSWORD = '8KkB8!xM19$$'
 EMAIL_PORT = 465

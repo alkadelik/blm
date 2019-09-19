@@ -1,3 +1,9 @@
+# Best practice:
+# Python first
+# Django second
+# Your apps
+# Local directory
+
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 from django.http import HttpResponse

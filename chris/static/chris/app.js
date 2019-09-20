@@ -25,8 +25,6 @@ new Vue({
     linkedBanks: false,
     settings: false,
     all_budgets: true,
-    // active_budgets: false,
-    // display_budgets: false,
   },
   methods: {
     charcount: function() {
@@ -62,9 +60,6 @@ new Vue({
     toggleBudgetViews() {
       this.all_budgets = !this.all_budgets;
     }
-    // display_budgets() {
-    //   this.display_budgets = true
-    // },
   },
   computed: {
     toggleView: function(){

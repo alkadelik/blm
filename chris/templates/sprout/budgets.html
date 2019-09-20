@@ -6,8 +6,8 @@
 {% block body %}
 <section class="fence">
     <div id="title-block">
-      <h2 v-show="all_budgets">All budgets</h2>
-      <h2 v-show="!all_budgets">Active budgets</h2>
+      <!-- <h2 v-show="all_budgets">All budgets</h2> -->
+      <!-- <h2 v-show="!all_budgets">Active budgets</h2> -->
     </div>
     <div v-show="all_budgets" id="main">
       <div class="gap"></div>
@@ -27,7 +27,7 @@
       {% endfor %}
     </div>
 
-    <div v-show="!all_budgets" id="main">
+    <!-- <div v-show="!all_budgets" id="main"> -->
       <div class="gap"></div>
       {% for budget in active_budgets|slice:":4" %}
       <div class="q-block">
@@ -43,8 +43,8 @@
         </div>
       </div>
       {% endfor %}
-    </div>
-    <button v-on:click="toggleBudgetViews()">Toggle Active/All Budgets</button>
-    <a class="" href="../">New Budget</a>
+    <!-- </div> -->
+    <!-- <button v-on:click="toggleBudgetViews()">Toggle Active/All Budgets</button> -->
+    <!-- <a class="" href="../">New Budget</a> -->
 </section>
 {% endblock %}

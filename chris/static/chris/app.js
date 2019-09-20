@@ -24,6 +24,8 @@ new Vue({
     budgets: false,
     linkedBanks: false,
     settings: false,
+    all_budgets: true,
+    // active_budgets: false,
     // display_budgets: false,
   },
   methods: {
@@ -56,6 +58,9 @@ new Vue({
       } else {
         this.menu = false
       }
+    },
+    toggleBudgetViews() {
+      this.all_budgets = !this.all_budgets;
     }
     // display_budgets() {
     //   this.display_budgets = true

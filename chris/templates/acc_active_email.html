@@ -1,6 +1,0 @@
-{% autoescape off %}
-Hello {{ user.emai }},
-Please click on the link below to confirm your registration,
-
-http://{{ domain }}{% url "chris:activate" uidb64=uid token=token %}
-{% endautoescape %}

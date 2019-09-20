@@ -21,13 +21,6 @@ def create_profile(sender, **kwargs):
 post_save.connect(create_profile, sender=User)
 
 class Budget(models.Model):
-
-    def __unicode__(self):
-        return self.title
-
-    def __str__(self):
-        return self.title
-
     user = models.ForeignKey(User)
     title = models.CharField(max_length=30, default='') # name of budget
     amount = models.IntegerField(default=0) # total amount to be set aside
@@ -50,13 +43,6 @@ class Budget(models.Model):
     updated = models.DateTimeField(null=False)
 
 class Bank(models.Model):
-
-    def __unicode__(self):
-        return self.holder_name, self.bank
-
-    def __str__(self):
-        return self.holder_name, self.bank
-
     holder_name = models.CharField(max_length=55, default="") # The account holder's name
     bank = models.CharField(max_length=55, default="") # The name of the bank
     bank_code = models.CharField(max_length=4, blank=True) # This used to be an IntegerField but ALAT code, 035A contains a character

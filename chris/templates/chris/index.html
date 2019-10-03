@@ -6,8 +6,11 @@
 
 {% block body %}
 <div id="index">
-  <div class="identity identity-space">
+  <div class="index-title">
     <h1>Budget Like Magic</h1>
+  </div>
+  <div class="identity">
+  <!-- <div class="identity identity-space"> -->
     <form method="post">
       {% csrf_token %}
       {{ form.as_p }}
@@ -20,6 +23,8 @@
     </p>
     <!-- <button type="submit">Log In</button> -->
     <p><a href="{% url 'chris:register' %}">Don't have an account? Register</a></p>
+  </div>
+  <div class="index-footer">
   </div>
 </div>
 {% endblock %}

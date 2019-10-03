@@ -1,5 +1,6 @@
-/* RESET STYLES */
+ /* RESET STYLES */
 body {
+  background-color: #E66A8C;
   margin: 0;
   padding: 0;
   font-family: 'Montserrat', sans-serif;
@@ -25,19 +26,22 @@ h2 {
   font-size: 0.9em;
 }
 .identity {
-  /* background-color: orange; */
   width: 300px;
   margin: 0 auto;
-  margin-top: 350px;
+  margin-top: 250px;
 }
 #index {
-  width: 360px;
+  display: grid;
+  gird-template-rows: 1fr 2fr 1fr;
+  width: 100%;
   margin: 0 auto;
   padding: 20px 0;
-  background-color: #E1848C;
+  background-color: #E66A8C;
   font-size: 0.9em;
 }
-#index h1 {
+.index-title h1 {
+  margin-top: 50px;
+  text-align: center;
   color: #FFF;
   font-weight: 400;
 }
@@ -49,14 +53,23 @@ h2 {
   padding: 10px;
   border: none;
 }
+@media screen and (max-width: 400px) {
+  #index input, .identity button {
+    /* display: block;
+    width: 280px;
+    margin: 0 auto 2px auto;
+    font-size: 1.2em;
+    padding: 10px;
+    border: none; */
+  }
+}
+
 .identity label {
   font-size: 16px;
 }
-.identity-space button {
+.identity button {
   position: relative;
   top: 30px;
-}
-.identity button {
   background-color: #893747;
   width: 300px;
   color: #FFF;
@@ -79,6 +92,7 @@ h2 {
   margin: 0 auto;
   /* padding: 0 20px; */
   background-color: #E1848C;
+  /* background-color: #E66A8C; */
 }
 .fence {
   position: relative;

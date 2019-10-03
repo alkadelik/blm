@@ -16,6 +16,10 @@ h2 {
   width: 70%;
   margin: 30px auto 0;
 }
+a {
+  text-decoration: none;
+  color: inherit;
+}
 .step-container {
   position: relative;
   width: 360px;
@@ -25,11 +29,6 @@ h2 {
   background-color: #E1848C;
   font-size: 0.9em;
 }
-.identity {
-  width: 300px;
-  margin: 0 auto;
-  margin-top: 250px;
-}
 #index {
   display: grid;
   gird-template-rows: 1fr 2fr 1fr;
@@ -37,7 +36,16 @@ h2 {
   margin: 0 auto;
   padding: 20px 0;
   background-color: #E66A8C;
-  font-size: 0.9em;
+  /* font-size: 1.0vw; */
+  font-size: 1em;
+}
+.identity form {
+  width: 360px;
+}
+.identity {
+  /* width: 300px; */
+  /* margin: 0 auto; */
+  margin-top: 250px;
 }
 .index-title h1 {
   margin-top: 50px;
@@ -47,9 +55,14 @@ h2 {
 }
 #index input, .identity button {
   display: block;
-  width: 280px;
-  margin: 0 auto 2px auto;
-  font-size: 1.2em;
+  background: #FBE9EE;
+  /* font-size: 1.2vw; */
+  font-size: 1.5em;
+  color: #2C0711; /* very dark purple */
+  line-height: 150%;
+  width: 100%;
+  width: 339px;
+  margin-top: 5px;
   padding: 10px;
   border: none;
 }
@@ -65,14 +78,16 @@ h2 {
 }
 
 .identity label {
-  font-size: 16px;
+  /* font-size: 1.1vw; */
+  font-size: 1.5em;
 }
 .identity button {
   position: relative;
   top: 30px;
   background-color: #893747;
-  width: 300px;
+  width: 360px;
   color: #FFF;
+  cursor: pointer;
 }
 #index p {
   color: #FFF;
@@ -80,7 +95,7 @@ h2 {
 }
 .forgot-password {
   position: relative;
-  top: -55px;
+  top: -70px;
   text-align: right;
   margin: 10px 0 20px 0;
 }

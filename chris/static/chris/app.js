@@ -18,6 +18,7 @@ new Vue({
     step: 1,
     showprev: true,
     // showprev: false,
+    // menu: false,
     menu: false,
     shownext: true,
     showsubmit: false,

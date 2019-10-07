@@ -2,6 +2,7 @@
 <html lang="en" dir="ltr">
   <head>
     <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     {% block title %}
     <title>Home</title>
     {% endblock %}
@@ -16,37 +17,33 @@
   </head>
   <body>
     <div id="app">
+      {% if user.is_authenticated %}
+      {% block menu %}
+      <button class="menu-btn menu-open" @click="menuAction()">&#9776;</button>
+      {% endblock %}
+      <transition class="menu-transition" name="fade">
+        <div v-if="menu" id="menu">
+          <ul>
+            <!-- <li><a v-show="showprev" v-on:click.prevent="display_budgets()">Budgets</li> -->
+            <!-- <li><a v-on:click="display_budgets()">Budgets</li> -->
+            <li><a href="{% url "sprout:home" %}">New Budget</a></li>
+            <li><a href="{% url "sprout:budgets" %}">My Budgets</a></li>
+            <li><a href="{% url "chris:settings" %}">Verified cards</a></li>
+            <li><a href="{% url "sprout:list_recipients" %}">Bank Accounts</a></li>
+            <li><a href="{% url "chris:settings" %}">Settings</a></li>
+            <li><a href="{% url "chris:logout" %}">Logout</a></li>
+            <li><button class="menu-btn" @click="menuAction()">&#8810;</button></li>
+          </ul>
+        </div>
+      </transition>
+      {% else %}
+        <!-- <a href="{% url "chris:reset_password" %}">Reset password</a> -->
+      {% endif %}
       {% block body %}
       {% endblock %}
       {% block validation %}
       <p id="validation"></p> <!-- not sure what this validation block is about -->
       {% endblock %}
-      {% if user.is_authenticated %}
-      <transition name="fade">
-        <div v-if="menu" id="menu">
-          <div class="">
-            <!-- <button @click="menu = !menu">Close</button> -->
-            <button @click="menuAction()">Close</button>
-          </div>
-          <div class="">
-            <ul>
-              <!-- <li><a v-show="showprev" v-on:click.prevent="display_budgets()">Budgets</li> -->
-              <!-- <li><a v-on:click="display_budgets()">Budgets</li> -->
-              <li><a href="{% url "sprout:budgets" %}">My Budgets</a></li>
-              <li><a href="{% url "chris:settings" %}">Verified cards</a></li>
-              <li><a href="{% url "sprout:list_recipients" %}">Bank Accounts</a></li>
-              <li><a href="{% url "chris:settings" %}">Settings</a></li>
-              <li><a href="{% url "chris:logout" %}">Logout</a></li>
-            </ul>
-          </div>
-        </div>
-      </transition>
-      {% block menu %}
-      <button @click="menuAction()">Menu</button>
-      {% endblock %}
-      {% else %}
-        <!-- <a href="{% url "chris:reset_password" %}">Reset password</a> -->
-      {% endif %}
       <script src="{% static 'chris/app.js' %}"></script>
     </div>
   </body>

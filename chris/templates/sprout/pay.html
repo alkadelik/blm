@@ -14,8 +14,8 @@
     <div class="q-block">
       <div class="budget">
         <p>You are about to fund your budget for <span class="highlight">{{ budget.title }}.</span>
-        Confirm the details below then click Pay fund it.<span>You will not be able to
-        edit detsils of your budget once it is funded</span></p>
+        Confirm the details below then click Pay to fund it.<span>You will not be able to
+        edit details of your budget once it is funded</span></p>
       </div>
     </div>
     <div class="q-block">
@@ -46,7 +46,9 @@
     <form>
       <p>This should be a swipe move for mobile devices</p>
       <script src="https://js.paystack.co/v1/inline.js"></script>
-      <button type="button" onclick="payWithPaystack()"> Fund Budget </button>
+      <div id="nav" class="q-block">
+        <button type="button" onclick="payWithPaystack()"> Fund Budget </button>
+      </div>
     </form>
   </div>
 </section>
@@ -94,7 +96,7 @@
         });
       },
       onClose: function(){
-          alert('window closed');
+          // alert('window closed');
       }
     });
     handler.openIframe();

@@ -8,6 +8,7 @@ from django.contrib.auth.forms import UserChangeForm, PasswordChangeForm
 from chris.forms import EditProfileForm, RegistrationForm
 from django.contrib.auth import update_session_auth_hash
 from django.contrib.auth.decorators import login_required
+from django.core.mail import EmailMessage
 from django.urls import reverse
 # import json
 
@@ -41,6 +42,8 @@ def register(request):
         form = RegistrationForm(request.POST)
         if form.is_valid():
             form.save()
+            email = EmailMessage("Testing email from django", "Please let me know if this worked", to=["debola_adeola@yahoo.com"])
+            email.send()
             return redirect("/sprout")
     else:
         form = RegistrationForm()

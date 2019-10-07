@@ -12,6 +12,7 @@ new Vue({
   delimiters: ['[[', ']]'],
   el: "#app",
   data: {
+    index: true,
     budget: "",
     present: true,
     charmax: 30,

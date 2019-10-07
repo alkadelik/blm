@@ -7,7 +7,9 @@
 {% block body %}
 <div id="index">
   <div class="identity">
-    <h1>BLM</h1>
+    <div class="index-title">
+      <h1>Budget Like Magic</h1>
+    </div>
     <form method="post">
       {% csrf_token %}
       {{ form.as_p }}

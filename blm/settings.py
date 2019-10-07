@@ -171,6 +171,7 @@ EMAIL_HOST = 'smpt.zoho.com'
 EMAIL_HOST_USER = 'debola@budgetlikemagic.com'
 EMAIL_HOST_PASSWORD = 'Hd6$#jKu89'
 EMAIL_PORT = 587
+DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
 
 DATE_INPUT_FORMATS = ('%d-%m-%Y','%Y-%m-%d')
 

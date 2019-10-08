@@ -165,11 +165,15 @@ LOGIN_EXEMPT_URLS = (
 # EMAIL_HOST = 'localhost'
 # EMAIL_PORT = 1025
 
-EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_USE_TLS = True
-EMAIL_HOST = 'smpt.zoho.com'
-EMAIL_HOST_USER = 'debola@budgetlikemagic.com'
-EMAIL_HOST_PASSWORD = 'Hd6$#jKu89'
+# EMAIL_HOST = 'smpt.zoho.eu'
+# EMAIL_HOST_USER = 'debola@budgetlikemagic.com'
+# EMAIL_HOST_PASSWORD = 'Hd6$#jKu89'
+# EMAIL_PORT = 587
+# DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
+EMAIL_HOST = 'smpt.sendgrid.net'
+EMAIL_HOST_USER = 'apikey'
+EMAIL_HOST_PASSWORD = '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'
 EMAIL_PORT = 587
 DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
 

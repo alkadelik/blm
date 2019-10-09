@@ -158,7 +158,8 @@ LOGIN_EXEMPT_URLS = (
     r'^chris/reset_password/$',
     r'^chris/password_reset/done/$',
     r'^chris/password_reset/confirm/(?P<uidb64>[0-9A-Za-z]+)-(?P<token>.+)/$',
-    r'^chris/password_reset/complete/$'
+    r'^chris/password_reset/complete/$',
+    r'^sprout/transfer/$'
 )
 
 # EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend' #This will avoid the need for an SMTP server as e-mails will be printed to the console. For more information, please refer to: https://docs.djangoproject.com/en/dev/ref/settings/#email-host

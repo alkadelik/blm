@@ -14,6 +14,7 @@ urlpatterns = [
     url(r'^index/$', login, {'template_name': 'chris/index.html'}, name="login"),
     url(r'^logout/$', logout, {'next_page': '../'}, name="logout"),
     url(r'^register/$', views.register, name='register'),
+    url(r'^email/$', views.email, name='email'),
     # url(r'^link_bank/$', views.link_bank, name="bank"),
     url(r'^menu/$', views.menu, name="menu"),
     url(r'^settings/$', views.settings, name="settings"),

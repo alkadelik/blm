@@ -8,7 +8,7 @@ from django.contrib.auth.forms import UserChangeForm, PasswordChangeForm
 from chris.forms import EditProfileForm, RegistrationForm
 from django.contrib.auth import update_session_auth_hash
 from django.contrib.auth.decorators import login_required
-from django.core.mail import EmailMessage
+from django.core.mail import send_mail, EmailMessage
 from django.urls import reverse
 # import json
 
@@ -36,14 +36,29 @@ def index(request):
 
 # This registers using a custom reg form - also commented out in forms
 # See tutorial 16 Max Goodridge Django tutorials
+def email(request):
+    subject = "Thank you for registering to our site"
+    message = "It means a world to us"
+    email_from = 'debola@budgetlikemagic.com'
+    recipient_list = ['debola_adeola@yahoo.com',]
+
+    send_mail(
+    # email = EmailMessage(
+        "Thank you for registering to our site",
+        "It means a world to us",
+        'debola@budgetlikemagic.com',
+        ['debola_adeola@yahoo.com',],
+        fail_silently=False,
+    )
+    # email.send()
+
+    return render(request, 'chris/login.html')
 
 def register(request):
     if request.method == "POST":
         form = RegistrationForm(request.POST)
         if form.is_valid():
             form.save()
-            email = EmailMessage("Testing email from django", "Please let me know if this worked", to=["debola_adeola@yahoo.com"])
-            email.send()
             return redirect("/sprout")
     else:
         form = RegistrationForm()

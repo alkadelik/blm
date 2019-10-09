@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% load humanize %}
 
 {% block head %}
 <title>Home</title>
@@ -8,6 +9,7 @@
     <div id="title-block">
       <h2 v-show="all_budgets">All budgets</h2>
       <h2 v-show="!all_budgets">Active budgets</h2>
+      <button v-on:click="toggleBudgetViews()">Toggle Active/All Budgets</button>
     </div>
     <!-- <div id="main"> -->
     <div v-show="all_budgets" id="main">
@@ -18,7 +20,8 @@
           <a class="budget_title status_{{budget.budget_status}}"
             href="../budget_details/{{ budget.id }}">{{ budget.title }}</a>
           <ul class="">
-            <li class="">₦{{ budget.amount }}   |</li>
+            <!-- <li class="">₦{{ budget.amount|floatformat:2  }}   |</li> -->
+            <li class="">₦{{ budget.amount|intcomma  }}   |</li>
             <li class="">{{ budget.next_date }}   |</li>
             <li class=""></li>
             <li class=""></li>
@@ -46,7 +49,5 @@
       </div>
       {% endfor %}
     </div>
-    <button v-on:click="toggleBudgetViews()">Toggle Active/All Budgets</button>
-    <a class="" href="../">New Budget</a>
 </section>
 {% endblock %}

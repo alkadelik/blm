@@ -155,6 +155,7 @@ LOGIN_URL = '/chris/index/'
 LOGIN_EXEMPT_URLS = (
     r'^chris/logout/$',
     r'^chris/register/$',
+    r'^chris/email/$',
     r'^chris/reset_password/$',
     r'^chris/password_reset/done/$',
     r'^chris/password_reset/confirm/(?P<uidb64>[0-9A-Za-z]+)-(?P<token>.+)/$',
@@ -166,17 +167,14 @@ LOGIN_EXEMPT_URLS = (
 # EMAIL_HOST = 'localhost'
 # EMAIL_PORT = 1025
 
-# EMAIL_HOST = 'smpt.zoho.eu'
-# EMAIL_HOST_USER = 'debola@budgetlikemagic.com'
-# EMAIL_HOST_PASSWORD = 'Hd6$#jKu89'
-# EMAIL_PORT = 587
-# DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
-SENDGRID_API_KEY = os.getenv('SENDGRID_API_KEY')
-EMAL_HOST = 'smtp.sendgrid.net'
-EMAIL_HOST_USER = 'apikey'
-EMAIL_HOST_PASSWORD = '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'
-EMAIL_PORT = 587
 EMAIL_USE_TLS = True
+EMAIL_HOST = 'smtp.zoho.eu'
+EMAIL_HOST_USER = 'debola@budgetlikemagic.com'
+EMAIL_HOST_PASSWORD = 'Hd6$#jKu89'
+EMAIL_PORT = 587
+# DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
+# DEFAULT_FROM_EMAIL = 'debola_adeola@yahoo.com'
+# ADMINS = [('<Debola>', 'debola_adeola@yahoo.com')]
 
 DATE_INPUT_FORMATS = ('%d-%m-%Y','%Y-%m-%d')
 

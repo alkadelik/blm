@@ -44,15 +44,15 @@ def email(request):
 
     send_mail(
     # email = EmailMessage(
-        "Thank you for registering to our site",
-        "It means a world to us",
+        "Another test to our site",
+        "This is the second time",
         'debola@budgetlikemagic.com',
-        ['debola_adeola@yahoo.com',],
+        ['debola_adeola@yahoo.com','debola@budgetlikemagic.com'],
         fail_silently=False,
     )
     # email.send()
 
-    return render(request, 'chris/login.html')
+    return redirect(reverse("chris:login"))
 
 def register(request):
     if request.method == "POST":

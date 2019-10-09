@@ -376,7 +376,7 @@ class Budgets(TemplateView):
 
     def get(self, request):
         user_id = request.user.id
-        my_budgets = Budget.objects.filter(user_id=user_id)
+        my_budgets = Budget.objects.filter(user_id=user_id).order_by('-created')
         unfunded_budgets = my_budgets.filter(budget_status=0)
         active_budgets = my_budgets.filter(budget_status__gte=1, budget_status__lt=3,)
         finished_budgets = my_budgets.filter(budget_status=3)

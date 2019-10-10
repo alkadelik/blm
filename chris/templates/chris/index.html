@@ -11,6 +11,7 @@
   </div>
   <div class="identity">
   <!-- <div class="identity identity-space"> -->
+  {{ message }}
     <form method="post">
       {% csrf_token %}
       {{ form.as_p }}

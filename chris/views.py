@@ -1,5 +1,15 @@
 # -*- coding: utf-8 -*-
-from __future__ import unicode_literals
+from __future__ import unicode_literals # Has to be the first thing
+
+# From registration email medium tutorial
+from django.http import HttpResponse
+from django.contrib.auth import login, authenticate
+from django.contrib.sites.shortcuts import get_current_site
+from django.utils.encoding import force_bytes, force_text
+from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
+from django.template.loader import render_to_string
+from .tokens import account_activation_token
+
 
 from django.shortcuts import redirect, render
 from django.contrib.auth.models import User
@@ -37,8 +47,8 @@ def index(request):
 # This registers using a custom reg form - also commented out in forms
 # See tutorial 16 Max Goodridge Django tutorials
 def email(request):
-    subject = "Thank you for registering to our site"
-    message = "It means a world to us"
+    subject = "Trying out email mesage"
+    message = "This is a different way to send it"
     email_from = 'debola@budgetlikemagic.com'
     recipient_list = ['debola_adeola@yahoo.com',]
 
@@ -55,20 +65,82 @@ def email(request):
     return redirect(reverse("chris:login"))
 
 def register(request):
+    # if request.method == "POST":
+    #     form = RegistrationForm(request.POST)
+    #     if form.is_valid():
+    #         form.save()
+    #
+    #         user = form.save(commit = False)
+    #         user.is_active = False
+    #         user.save()
+    #
+    #         return redirect("/sprout")
+    # else:
+    #     form = RegistrationForm()
+    #
+    #     context = {'form': form}
+    #     return render(request, 'chris/register.html', context)
+
     if request.method == "POST":
         form = RegistrationForm(request.POST)
         if form.is_valid():
-            form.save()
-            return redirect("/sprout")
+
+            # form.save()
+
+            user = form.save(commit = False)
+            user.is_active = False
+            user.save()
+            current_site = get_current_site(request)
+            mail_subject = "Activate your blog account."
+            message = render_to_string("acc_active_email.html", {
+            "user": user,
+            "domain": current_site.domain,
+            "uid":urlsafe_base64_encode(force_bytes(user.pk)),
+            "token":account_activation_token.make_token(user),
+            })
+            email_from = 'debola@budgetlikemagic.com'
+            to_email = form.cleaned_data.get("email")
+            send_mail(
+                mail_subject,
+                message,
+                email_from,
+                # ['debola_adeola@yahoo.com',],
+                [to_email,],
+                fail_silently=False,
+            )
+            context = {
+                "message": "Please confirm your email address to complete registration"
+            }
+            return render(request, 'chris/register.html', context)
+            return render(request, 'chris/register.html')
+
     else:
         form = RegistrationForm()
 
         context = {'form': form}
         return render(request, 'chris/register.html', context)
 
-# Moved to new app
-# def home(request):
-#     return render(request, 'chris/home.html')
+def activate(request, uidb64, token):
+    try:
+        uid = force_text(urlsafe_base64_decode(uidb64))
+        user = User.objects.get(pk=uid)
+    except(TypeError, ValueError, OverflowError, User.DoesNotExist):
+        user = None
+    if user is not None and account_activation_token.check_token(user, token):
+        user.is_active = True
+        user.save()
+        login(request, user)
+
+        context = {
+            "message": "email confirmed. Login now",
+        }
+        return render(request, 'chris/index.html', context)
+    else:
+        context = {
+            "message": "Activation link is invalid",
+        }
+        return render(request, 'chris/index.html', context)
+
 
 def menu(request):
     return render(request, 'chris/menu.html')

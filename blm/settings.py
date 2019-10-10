@@ -147,7 +147,6 @@ STATICFILES_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
 STATIC_URL = '{}/{}/'.format(AWS_S3_ENDPOINT_URL, AWS_LOCATION)
 STATIC_ROOT = 'static/'
 
-
 LOGIN_REDIRECT_URL = '/sprout/' # goes here after logging in
 
 LOGIN_URL = '/chris/index/'
@@ -156,6 +155,7 @@ LOGIN_EXEMPT_URLS = (
     r'^chris/logout/$',
     r'^chris/register/$',
     r'^chris/email/$',
+    r'^chris/activate/(?P<uidb64>[0-9A-Za-z_\-]+)/(?P<token>[0-9A-Za-z]{1,13}-[0-9A-Za-z]{1,20})/$',
     r'^chris/reset_password/$',
     r'^chris/password_reset/done/$',
     r'^chris/password_reset/confirm/(?P<uidb64>[0-9A-Za-z]+)-(?P<token>.+)/$',

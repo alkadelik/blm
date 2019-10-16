@@ -115,24 +115,16 @@ def resolve_account(request):
         response = requests.request("GET", url, headers=headers).json()
 
     try:
-        acc_name = response["data"]["account_name"]
+        holder_name = response["data"]["account_name"]
         # recipient_code = respons["data"]["recipient_code"]
-        context = {
-            "resp": acc_name,
-        }
-        # how can this acc_name be sent back to user screen to be displayed?
-        # and then sent back when form is submitted so it can be entered to db
-        print acc_name
-        # print response
+        response = holder_name
+
     except:
         unresolved_message = response["message"]
-        context = {
-            "validation": unresolved_message,
-        }
-        print unresolved_message
+        response = unresolved_message,
 
     # need to figure out how to send this back to the template
-    return JsonResponse(acc_name, safe=False)
+    return JsonResponse(response, safe=False)
     # return render(request, "sprout/new_recipient.html", context)
 
 # Adds the new reciient (bank) details to the user's database
@@ -143,9 +135,10 @@ def add_recipient(request):
         acc_no = request.POST["acc_no"]
         bank_code = request.POST["bank_code"]
         bank_name = request.POST["bank_name"]
-        user_id = request.POST["user_id"] # Figure out the
+        holder_name = request.POST["holder_name"] # Figure out the
             # best way to do this
-        holder_name = "Bibi" # this should be from the validation
+        print holder_name
+        print bank_name
 
         # at this point, a transfer recipient should be created
         url = "https://api.paystack.co/transferrecipient"
@@ -172,7 +165,7 @@ def add_recipient(request):
 
         new_recipient = Bank(holder_name=holder_name, bank=bank_name,
             bank_code=bank_code, acc_no=acc_no,
-            created=timezone.now(), user_id=user_id, recipient_code=recipient_code)
+            created=timezone.now(), user_id=request.user.id, recipient_code=recipient_code)
             # recipient_code appears in two Bank and Budget tables: refactor
         new_recipient.save()
 

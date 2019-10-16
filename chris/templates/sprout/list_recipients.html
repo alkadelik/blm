@@ -13,7 +13,7 @@
     </div>
     <div id="main">
       <div class="gap"></div>
-      {% for bank in banks|slice:":3" %}
+      {% for bank in banks|slice:":4" %}
       <div class="q-block">
         <div class="budget">
           <input type="radio" name="bank" value="{{ bank.id }}">{{ bank.holder_name }} | {{ bank.acc_no }} | {{ bank.bank }}

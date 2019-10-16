@@ -32,61 +32,10 @@ def login_redirect(request):
 def index(request):
     return reverse("login")
 
-# def register(request):
-#     if request.method == 'POST':
-#         form = UserCreationForm(request.POST)
-#         if form.is_valid():
-#             form.save()
-#             return redirect(reverse("sprout:home"))
-#     else:
-#         form = UserCreationForm()
-#
-#         context = {'form': form}
-#         return render(request, 'chris/register.html', context)
-
-# This registers using a custom reg form - also commented out in forms
-# See tutorial 16 Max Goodridge Django tutorials
-def email(request):
-    subject = "Trying out email mesage"
-    message = "This is a different way to send it"
-    email_from = 'debola@budgetlikemagic.com'
-    recipient_list = ['debola_adeola@yahoo.com',]
-
-    send_mail(
-    # email = EmailMessage(
-        "Another test to our site",
-        "This is the second time",
-        'debola@budgetlikemagic.com',
-        ['debola_adeola@yahoo.com','debola@budgetlikemagic.com'],
-        fail_silently=False,
-    )
-    # email.send()
-
-    return redirect(reverse("chris:login"))
-
 def register(request):
-    # if request.method == "POST":
-    #     form = RegistrationForm(request.POST)
-    #     if form.is_valid():
-    #         form.save()
-    #
-    #         user = form.save(commit = False)
-    #         user.is_active = False
-    #         user.save()
-    #
-    #         return redirect("/sprout")
-    # else:
-    #     form = RegistrationForm()
-    #
-    #     context = {'form': form}
-    #     return render(request, 'chris/register.html', context)
-
     if request.method == "POST":
         form = RegistrationForm(request.POST)
         if form.is_valid():
-
-            # form.save()
-
             user = form.save(commit = False)
             user.is_active = False
             user.save()
@@ -104,7 +53,6 @@ def register(request):
                 mail_subject,
                 message,
                 email_from,
-                # ['debola_adeola@yahoo.com',],
                 [to_email,],
                 fail_silently=False,
             )
@@ -113,7 +61,6 @@ def register(request):
             }
             return render(request, 'chris/register.html', context)
             return render(request, 'chris/register.html')
-
     else:
         form = RegistrationForm()
 
@@ -139,7 +86,7 @@ def activate(request, uidb64, token):
         context = {
             "message": "Activation link is invalid",
         }
-        return render(request, 'chris/index.html', context)
+        return render(request, 'sprout/home.html')
 
 
 def menu(request):

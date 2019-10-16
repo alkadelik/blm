@@ -65,23 +65,43 @@
   function resolve_account(){
     var acc_no = document.getElementById("acc_no").value.trim();
     var bank_code = document.getElementById("bank_code").value.trim();
-    $.ajax({
+    req = $.ajax({
       type: "POST",
       url: "/sprout/resolve_account/",
       data: {
         bank_code: bank_code,
         acc_no: acc_no,
         csrfmiddlewaretoken: "{{csrf_token}}"
-      }
+      },
+      success: function(acc_name){
+        document.getElementById("validation").innerHTML = acc_name
+
+      // Doesn't "success" by default, mean response.status is true?
+      // Thus, why the need for the if statement below?
+      // Whereas the "onClose" means that success is False
+      // Or that the user closed the window
+      // Is it possible that Success is true but the user closes
+      // The window before the callback completes?
+      // What happens then? Webhook?
+      },
+      // callback: function(response){
+      //     // alert('success. transaction ref is ' + response["data"]["account_name"]);
+      // },
+    });
+    req.done(function(acc_name) {
+      // alert(acc_name)
+      // document.getElementById("validation").innerHTML = data
     });
   };
+
+
 
   function verify_acc(){
     var acc_no = document.getElementById("acc_no").value.trim();
     var bank_code = document.getElementById("bank_code").value.trim();
     // Update the condition to resolve account if there are 10 digits
     // and bank then changes.
-    if (acc_no.length === 10) {
+    if (acc_no.length === 10) { // This should happen when when a change of bank happens too
       return resolve_account();
     }
   }

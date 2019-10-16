@@ -118,13 +118,12 @@ def resolve_account(request):
         acc_name = response["data"]["account_name"]
         # recipient_code = respons["data"]["recipient_code"]
         context = {
-            "validation": acc_name,
+            "resp": acc_name,
         }
         # how can this acc_name be sent back to user screen to be displayed?
         # and then sent back when form is submitted so it can be entered to db
-        # print acc_name
-        # print recipient_code
-        print response
+        print acc_name
+        # print response
     except:
         unresolved_message = response["message"]
         context = {
@@ -133,7 +132,8 @@ def resolve_account(request):
         print unresolved_message
 
     # need to figure out how to send this back to the template
-    return render(request, "sprout/new_recipient.html", context)
+    return JsonResponse(acc_name, safe=False)
+    # return render(request, "sprout/new_recipient.html", context)
 
 # Adds the new reciient (bank) details to the user's database
 # Is this better populated with values from new_recipient.html

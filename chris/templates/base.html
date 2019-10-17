@@ -19,8 +19,8 @@
     <div id="app">
       {% if user.is_authenticated %}
       {% block menu %}
-      <!-- <button class="menu-btn menu-open" @click="menuAction()">&#9776;</button> -->
-      <button class="menu-btn menu-open" @click="menuAction()">Menu</button>
+      <button class="menu-btn menu-open" @click="menuAction()">&#9776;</button>
+      <!-- <button class="menu-btn menu-open" @click="menuAction()">Menu</button> -->
       {% endblock %}
       <transition class="menu-transition" name="fade">
         <div v-if="menu" id="menu">

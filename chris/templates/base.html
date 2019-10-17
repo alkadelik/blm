@@ -27,9 +27,10 @@
           <ul>
             <!-- <li><a v-show="showprev" v-on:click.prevent="display_budgets()">Budgets</li> -->
             <!-- <li><a v-on:click="display_budgets()">Budgets</li> -->
+            <li><a href="{% url "sprout:feedback" %}">Feedback</a></li>
             <li><a href="{% url "sprout:home" %}">New Budget</a></li>
             <li><a href="{% url "sprout:budgets" %}">My Budgets</a></li>
-            <li><a href="{% url "chris:settings" %}">Verified cards</a></li>
+            <!-- <li><a href="{% url "chris:settings" %}">Verified cards</a></li> -->
             <li><a href="{% url "sprout:list_recipients" %}">Bank Accounts</a></li>
             <li><a href="{% url "chris:settings" %}">Settings</a></li>
             <li><a href="{% url "chris:logout" %}">Logout</a></li>

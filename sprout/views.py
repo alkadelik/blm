@@ -388,3 +388,6 @@ def budget_details(request, budget_id):
             return render(request, "sprout/budget_details.html", context)
         else:
             return redirect("sprout:budgets")
+
+def feedback(request):
+    return render(request, "sprout/feedback.html")

@@ -34,5 +34,5 @@ urlpatterns = [
     'chris:password_reset_complete'}, name="password_reset_confirm"),
 
     url(r'^password_reset/complete/$', password_reset_complete, {'template_name':
-    'chris/reset_password_complete.html'}, name="password_reset_complete")
+    'chris/reset_password_complete.html'}, name="password_reset_complete"),
 ]

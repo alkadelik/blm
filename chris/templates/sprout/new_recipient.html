@@ -33,18 +33,16 @@
 </section>
 
 <script type="text/javascript">
-  var acc_no = document.getElementById("acc_no").value.trim();
-  var bank_code = document.getElementById("bank_code").value.trim();
+  // var acc_no = document.getElementById("acc_no").value.trim();
+  // var bank_code = document.getElementById("bank_code").value.trim();
   // var bank_name = document.getElementById("bank_code").text;
-
-  // This should be returned by the API
-  // var holder_name = document.getElementById("bank_code").text.trim();
 
   function submit(){
     // if account validated do this:
     var acc_no = document.getElementById("acc_no").value.trim();
+    var bank_name = document.getElementById('bank_code').options[document.getElementById('bank_code').selectedIndex].text;
     var bank_code = document.getElementById("bank_code").value;
-    var bank_name = document.getElementById("bank_code").selectedOptions[0].text;
+    var holder_name = document.getElementById("validation").innerHTML;
 
     $.ajax({
       type: "POST",
@@ -53,6 +51,7 @@
         bank_code: bank_code,
         bank_name: bank_name,
         acc_no: acc_no,
+        holder_name: holder_name,
         user_id: "{{ user_id }}",
         csrfmiddlewaretoken: "{{csrf_token}}"
       },
@@ -73,8 +72,8 @@
         acc_no: acc_no,
         csrfmiddlewaretoken: "{{csrf_token}}"
       },
-      success: function(acc_name){
-        document.getElementById("validation").innerHTML = acc_name
+      success: function(response){
+        document.getElementById("validation").innerHTML = response
 
       // Doesn't "success" by default, mean response.status is true?
       // Thus, why the need for the if statement below?
@@ -88,10 +87,9 @@
       //     // alert('success. transaction ref is ' + response["data"]["account_name"]);
       // },
     });
-    req.done(function(acc_name) {
-      // alert(acc_name)
-      // document.getElementById("validation").innerHTML = data
-    });
+    // req.done(function(response) {
+    //   // alert(acc_name)
+    // });
   };
 
 

@@ -16,7 +16,9 @@
       {% for bank in banks|slice:":4" %}
       <div class="q-block">
         <div class="budget">
-          <input type="radio" name="bank" value="{{ bank.id }}">{{ bank.holder_name }} | {{ bank.acc_no }} | {{ bank.bank }}
+          <input type="radio" name="bank" value="{{ bank.id }}">
+            {{ bank.holder_name }} | {{ bank.acc_no }} | {{ bank.bank }}
+            <span class="delete" onclick="delete()">&times;</span>
         </div>
       </div>
       {% endfor %}
@@ -51,6 +53,9 @@
         break;
       }
     }
+  }
+  function delete(){
+    
   }
 </script>
 {% endblock %}

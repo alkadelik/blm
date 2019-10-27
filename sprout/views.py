@@ -389,5 +389,8 @@ def budget_details(request, budget_id):
         else:
             return redirect("sprout:budgets")
 
-def feedback(request):
-    return render(request, "sprout/feedback.html")
+class Feedback(TemplateView):
+    template_name = "sprout/feedback.html"
+
+    def get(self, request):
+        return render(request, self.template_name)

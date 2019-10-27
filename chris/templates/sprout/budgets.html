@@ -24,7 +24,11 @@
             <li class="">₦{{ budget.amount|intcomma  }}   |</li>
             <li class="">{{ budget.next_date }}   |</li>
             <li class=""></li>
-            <li class=""></li>
+            <li class="">
+              {% if budget.budget_status == 0 %}
+              <i class="fa fa-trash"></i>| <i class="fa fa-credit-card"></i>
+              {% endif %}
+            </li>
           </ul>
         </div>
       </div>
@@ -43,7 +47,11 @@
             <li class="">₦{{ budget.amount }}   |</li>
             <li class="">{{ budget.next_date }}   |</li>
             <li class=""></li>
-            <li class=""></li>
+            <li class="">
+              {% if budget.budget_status == 0 %}
+              <i class="fa fa-trash"></i> | <i class="far fa-credit-card"></i>
+              {% endif %}
+            </li>
           </ul>
         </div>
       </div>

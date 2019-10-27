@@ -107,6 +107,20 @@
             <!-- <button v-show="showsubmit" v-on:click.prevent="submit()">Submit</button> -->
           </div>
         </div>
+        <!-- {% if form.errors %}
+          {% for field in form %}
+            {% for error in field.errors %}
+            <div class="">
+              {{ error|escape }}
+            </div>
+            {% endfor %}
+            {% for error in form.non_field_errors %}
+            <div class="">
+              {{ error|escape }}
+            </div>
+            {% endfor %}
+          {% endfor %}
+        {% endif %} -->
     </section>
 </form>
 <!-- <section v-show="step === display_budgets" class="fence">

@@ -199,6 +199,29 @@ def add_recipient(request):
 class ListRecipients(TemplateView):
     template_name = "sprout/list_recipients.html"
 
+    # Note that this can be coming from a newly created budget
+    # or from an existing, but unlinked, one.
+    # Check to see if an ID already exists then set the session for the new ID.
+    # What happens if the user doesn't go on to do anything with the ID?
+
+    def post(self, request):
+        if request.method == "POST":
+            budget_id = request.POST["budget_id"]
+            request.session["budget_id"] = budget_id
+
+            user_id = request.user.id
+            banks = Bank.objects.filter(user_id=user_id)
+
+            context = {
+                "banks": banks,
+            }
+            # return redirect("sprout:list_recipients")
+            return render(request, self.template_name, context)
+        else:
+            # means coming from create budget not budget list
+            print "my try didn't work o"
+            pass
+
     def get(self, request):
         user_id = request.user.id
         banks = Bank.objects.filter(user_id=user_id)
@@ -394,3 +417,10 @@ class Feedback(TemplateView):
 
     def get(self, request):
         return render(request, self.template_name)
+
+def delete_budget(request):
+    if request.method == "POST":
+        budget_id = request.POST["budget_id"]
+        print budget_id
+        # Budget.objects.filter(id=budget_id).delete()
+        return redirect("sprout:budgets")

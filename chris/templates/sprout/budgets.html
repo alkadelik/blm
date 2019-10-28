@@ -14,24 +14,30 @@
     <!-- <div id="main"> -->
     <div v-show="all_budgets" id="main">
       <div class="gap"></div>
-      {% for budget in my_budgets|slice:":5" %}
-      <div class="q-block">
-        <div class="budget">
-          <a class="budget_title status_{{budget.budget_status}}"
-            href="../budget_details/{{ budget.id }}">{{ budget.title }}</a>
-          <ul class="">
-            <!-- <li class="">₦{{ budget.amount|floatformat:2  }}   |</li> -->
-            <li class="">₦{{ budget.amount|intcomma  }}   |</li>
-            <li class="">{{ budget.next_date }}   |</li>
-            <li class=""></li>
-            <li class="">
-              {% if budget.budget_status == 0 %}
-              <i class="fa fa-trash"></i>| <i class="fa fa-credit-card"></i>
-              {% endif %}
-            </li>
-          </ul>
+      {% for budget in my_budgets|slice:":10" %} <!-- no_recipient -->
+      <!-- <transition class="menu-transition" name="fade"> -->
+        <div class="q-block">
+          <div class="budget">
+            <a class="budget_title status_{{budget.budget_status}}"
+              href="../budget_details/{{ budget.id }}">{{ budget.title }}</a>
+            <ul class="">
+              <!-- <li class="">₦{{ budget.amount|floatformat:2  }}   |</li> -->
+              <li class="">₦{{ budget.amount|intcomma  }}   |</li>
+              <li class="">{{ budget.next_date }}   |</li>
+              <li class=""></li>
+              <li class="">
+                {% if budget.budget_status == 0 %}
+                <i id="{{ budget.id }}" class="fa fa-trash" onclick="delete_budget()"></i>
+                <i id="{{ budget.id }}" class="fa fa-credit-card" onclick="add_recipient()"></i>
+                  {% if budget.recipient_code == "" %}
+                  <p>not</p>
+                  {% endif %}
+                {% endif %}
+              </li>
+            </ul>
+          </div>
         </div>
-      </div>
+      <!-- </transition> -->
       {% endfor %}
     </div>
 
@@ -47,15 +53,41 @@
             <li class="">₦{{ budget.amount }}   |</li>
             <li class="">{{ budget.next_date }}   |</li>
             <li class=""></li>
-            <li class="">
-              {% if budget.budget_status == 0 %}
-              <i class="fa fa-trash"></i> | <i class="far fa-credit-card"></i>
-              {% endif %}
-            </li>
+            <li class=""></li>
           </ul>
         </div>
       </div>
       {% endfor %}
     </div>
 </section>
+<script>
+  function delete_budget(){
+    var budget_id = event.target || event.srcElement
+    $.ajax({
+      url: "/sprout/delete_budget/",
+      type: "POST",
+      data: {
+        "budget_id": budget_id.id,
+        "csrfmiddlewaretoken": "{{csrf_token}}"
+      },
+      success: function() {
+        alert("Deleted")
+      }
+    });
+  }
+  function add_recipient(){
+    var budget_id = event.target || event.srcElement
+    $.ajax({
+      url: "/sprout/list_recipients/",
+      type: "POST",
+      data: {
+        "budget_id": budget_id.id,
+        "csrfmiddlewaretoken": "{{csrf_token}}"
+      },
+      success: function() {
+        window.location.href = "/sprout/list_recipients/"
+      }
+    });
+  }
+</script>
 {% endblock %}

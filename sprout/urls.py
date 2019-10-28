@@ -14,5 +14,6 @@ urlpatterns = [
     url(r'^resolve_account/$', views.resolve_account, name="resolve_account"),
     url(r'^add_recipient/$', views.add_recipient, name="add_recipient"),
     url(r'^budget_details/(?P<budget_id>\d+)/$', views.budget_details, name="budget_details"),
+    url(r'^delete_budget/$', views.delete_budget, name="delete_budget"),
     url(r'^feedback/$', views.Feedback.as_view(), name='feedback'),
 ]

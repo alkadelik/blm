@@ -60,7 +60,7 @@ def register(request):
                 "message": "Please confirm your email address to complete registration"
             }
             return render(request, 'chris/register.html', context)
-            return render(request, 'chris/register.html')
+            # return render(request, 'chris/register.html')
     else:
         form = RegistrationForm()
 

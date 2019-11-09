@@ -6,20 +6,17 @@
 
 {% block body %}
 <div id="index">
+  <div class="index-title">
+    <h1>Budget Like Magic</h1>
+    <p>Register here</p>
+  </div>
   <div class="identity">
-    <div class="index-title">
-      <h1>Budget Like Magic</h1>
-    </div>
     {{ message }}
-    <form method="post">
+    <form method="post" class="reg-form">
       {% csrf_token %}
       {{ form.as_p }}
       <button type="submit">Sign Up</button>
     </form>
-    <!-- <input type="text" name="" value="" placeholder="Email address"> -->
-    <!-- <input type="password" name="" value="" placeholder="Password"> -->
-    <!-- <p class="forgot">Forgot password?</p> -->
-    <!-- <button type="submit">Log In</button> -->
     <p><a href="{% url 'chris:login' %}">Already have an account? Login</a></p>
   </div>
 </div>

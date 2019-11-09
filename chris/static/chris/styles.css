@@ -60,6 +60,9 @@ a {
   color: #FFF;
   font-weight: 400;
 }
+.reg-form ul {
+  display: none;
+}
 #index input, .identity button {
   display: block;
   background: #FBE9EE;

@@ -23,7 +23,7 @@
               href="../budget_details/{{ budget.id }}">{{ budget.title }}</a>
             <ul class="">
               <!-- <li class="">₦{{ budget.amount|floatformat:2  }}   |</li> -->
-              <li class="">₦{{ budget.amount|hundredth|intcomma  }}   |</li>
+              <li class="">₦{{ budget.amount|hundredth|intcomma }}   |</li>
               <li class="">{{ budget.next_date }}   |</li>
               <li class=""></li>
               <li class="">
@@ -51,7 +51,7 @@
           <a class="budget_title"
             href="../budget_details/{{ budget.id }}">{{ budget.title }}</a>
           <ul class="">
-            <li class="">₦{{ budget.amount }}   |</li>
+            <li class="">₦{{ budget.amount|hundredth|intcomma }}   |</li>
             <li class="">{{ budget.next_date }}   |</li>
             <li class=""></li>
             <li class=""></li>

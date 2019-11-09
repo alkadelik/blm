@@ -1,4 +1,6 @@
 {% extends 'base.html' %}
+{% load humanize %}
+{% load hundredth %}
 
 {% block head %}
 <title>Fund Budget</title>
@@ -25,7 +27,7 @@
     </div>
     <div class="q-block">
       <div class="budget">
-          <p>Amount: ₦ {{ budget.amount }}</p>
+          <p>Amount: ₦ {{ budget.amount|hundredth|intcomma }}</p>
       </div>
     </div>
     <div class="q-block">

@@ -1,7 +1,11 @@
 {% autoescape off %}
-Hi {{ user.username }},
+Hey hey, thanks so much for signing up!
 
-Please click on the link to confirm your registration,
+We built BudgetLikeMagic to help you stay disciplined with your budget. Hope it gets you on your way to prosperity.
+
+Please click on the link below to confirm your email address:
 
 http://{{domain}}{% url "chris:activate" uidb64=uid token=token %}
 {% endautoescape %}
+
+Happy Budgeting!

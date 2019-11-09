@@ -47,7 +47,7 @@ def register(request):
             "uid":urlsafe_base64_encode(force_bytes(user.pk)),
             "token":account_activation_token.make_token(user),
             })
-            email_from = 'debola@budgetlikemagic.com'
+            email_from = 'welcome@budgetlikemagic.com'
             to_email = form.cleaned_data.get("email")
             send_mail(
                 mail_subject,

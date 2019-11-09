@@ -164,18 +164,11 @@ LOGIN_EXEMPT_URLS = (
     r'^sprout/transfer/$'
 )
 
-# EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend' #This will avoid the need for an SMTP server as e-mails will be printed to the console. For more information, please refer to: https://docs.djangoproject.com/en/dev/ref/settings/#email-host
-# EMAIL_HOST = 'localhost'
-# EMAIL_PORT = 1025
-
 EMAIL_USE_TLS = True
-EMAIL_HOST = 'smtp.zoho.eu'
-EMAIL_HOST_USER = 'debola@budgetlikemagic.com'
-EMAIL_HOST_PASSWORD = 'Hd6$#jKu89'
+EMAIL_HOST = 'smtp.sendgrid.net'
+EMAIL_HOST_USER = 'apikey'
+EMAIL_HOST_PASSWORD = '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'
 EMAIL_PORT = 587
-# DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
-# DEFAULT_FROM_EMAIL = 'debola_adeola@yahoo.com'
-# ADMINS = [('<Debola>', 'debola_adeola@yahoo.com')]
 
 DATE_INPUT_FORMATS = ('%d-%m-%Y','%Y-%m-%d')
 

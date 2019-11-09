@@ -1,5 +1,6 @@
 {% extends 'base.html' %}
 {% load humanize %}
+{% load hundredth %}
 
 {% block head %}
 <title>Home</title>
@@ -22,7 +23,7 @@
               href="../budget_details/{{ budget.id }}">{{ budget.title }}</a>
             <ul class="">
               <!-- <li class="">₦{{ budget.amount|floatformat:2  }}   |</li> -->
-              <li class="">₦{{ budget.amount|intcomma  }}   |</li>
+              <li class="">₦{{ budget.amount|hundredth|intcomma  }}   |</li>
               <li class="">{{ budget.next_date }}   |</li>
               <li class=""></li>
               <li class="">
@@ -71,7 +72,11 @@
         "csrfmiddlewaretoken": "{{csrf_token}}"
       },
       success: function() {
-        alert("Deleted")
+        // if(data.success == true){ // if true (1)
+          // setTimeout(function(){// wait for 5 secs(2)
+            window.location.reload(); // then reload the page.(3)
+          // }, 5000);
+        // }
       }
     });
   }

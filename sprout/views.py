@@ -217,10 +217,6 @@ class ListRecipients(TemplateView):
             }
             # return redirect("sprout:list_recipients")
             return render(request, self.template_name, context)
-        else:
-            # means coming from create budget not budget list
-            print "my try didn't work o"
-            pass
 
     def get(self, request):
         user_id = request.user.id
@@ -421,6 +417,5 @@ class Feedback(TemplateView):
 def delete_budget(request):
     if request.method == "POST":
         budget_id = request.POST["budget_id"]
-        print budget_id
-        # Budget.objects.filter(id=budget_id).delete()
+        Budget.objects.filter(id=budget_id).delete()
         return redirect("sprout:budgets")

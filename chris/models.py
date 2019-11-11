@@ -65,5 +65,12 @@ class Bank(models.Model):
     user = models.ForeignKey(User)
 
 class Token(models.Model):
-    token = models.IntegerField(default=0)
-    last_4 = models.CharField(max_length=4, default='0000')
+    def __unicode__(self):
+        return self.user, self.last_4
+
+    def __str__(self):
+        return self.user, self.last_4
+    last_4 = models.CharField(max_length=4, default='0000') # last 4 digits of card for reccognition
+    auth_code = models.CharField(max_length=20, blank=True) #auth code to charge previously charged cards
+    card_scheme = models.CharField(max_length=10, blank=True) # Card scheme of card e.g. Visa, MC, Verve
+    user = models.ForeignKey(User)

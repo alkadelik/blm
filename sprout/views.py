@@ -7,7 +7,7 @@ from sprout.forms import BudgetSetupForm, NewRecipientForm
 from django.utils import timezone
 from datetime import date, datetime, timedelta
 from django.urls import reverse
-from chris.models import Budget, Bank
+from chris.models import Budget, Bank, Token
 
 from django.http import JsonResponse
 import requests, json # requests was installed by pip
@@ -267,8 +267,8 @@ def pay(request):
                 return "Multiple disbursements"
 
         context = {
-            # pk = "pk_test_9b841d2e67007aeca304a57442891a06ad312ece"
-            "pk": "pk_live_163e7cf486ffc7c6458472600beea80901168692",
+            "pk": "pk_test_9b841d2e67007aeca304a57442891a06ad312ece",
+            # "pk": "pk_live_163e7cf486ffc7c6458472600beea80901168692",
             "email": request.user.email,
             "mode": mode(),
             "currency": "NGN",
@@ -284,8 +284,8 @@ def pay(request):
 def payment_verification(request):
     api = "https://api.paystack.co/transaction/verify/"
     headers = {
-        # 'Authorization': "Bearer sk_test_7cb2764341285a8c91ec4ce0c979070188be9cce",
-        'Authorization': "Bearer sk_live_01ee65297a9ae5bdf8adbe9ae7cdf6163384a00e",
+        'Authorization': "Bearer sk_test_7cb2764341285a8c91ec4ce0c979070188be9cce",
+        # 'Authorization': "Bearer sk_live_01ee65297a9ae5bdf8adbe9ae7cdf6163384a00e",
     }
 
     if request.method == "POST":
@@ -293,6 +293,9 @@ def payment_verification(request):
 
         url = api + pay_ref
         response = requests.request("GET", url, headers=headers).json()
+        auth_code = response["data"]["authorization"]["authorization_code"]
+        brand = response["data"]["authorization"]["brand"]
+        last_4 = response["data"]["authorization"]["last4"]
 
         pay_status = response["status"]
         if pay_status == True:
@@ -306,15 +309,41 @@ def payment_verification(request):
                 # check that amount funded equals budget amount
                 budget.budget_status = 1
                 budget.save()
+
+                # Check if token exists for card
+                try:
+                    token = Token.objects.get(auth_code=auth_code)
+                    print "Token is: ", token
+                except:
+                    print "Token is (not): "
+                    new_token = Token(last_4=last_4, auth_code=auth_code, card_scheme = brand, user_id=request.user.id)
+                    new_token.save()
+
                 del request.session["budget_id"]
             else:
                 # Wait for webhook
                 budget.pay_ref = response["data"]["reference"]
 
         return redirect("/sprout/")
-        # Not sure why I have to use this. Doesn't seem to do anything
 
-# Have a history of budgets being funded (similar to TuGs payment history)
+def charge_auth(request):
+    url = "https://api.paystack.co/transaction/charge_authorization"
+    headers = {
+        'Authorization': "Bearer sk_test_7cb2764341285a8c91ec4ce0c979070188be9cce",
+        # 'Authorization': "Bearer sk_live_01ee65297a9ae5bdf8adbe9ae7cdf6163384a00e",
+    }
+    data = {
+        # {"authorization_code": "AUTH_67wpn7vbtq",
+        # "email": request.user.email,
+        # "amount": 500000,
+        # "custom_fields": [{
+        #     "Budget": budget name,
+        #     }]
+        }
+    response = requests.post(url, json=data, headers=headers).json()
+    print resposne
+    # recipient_code = response["data"]["recipient_code"]
+    return None
 
 def transfer(request):
     url = "https://api.paystack.co/transfer/bulk"

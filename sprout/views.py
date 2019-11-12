@@ -1,9 +1,11 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 
+from django.core.mail import send_mail
 from django.views.generic import TemplateView
 from django.shortcuts import render, redirect
 from sprout.forms import BudgetSetupForm, NewRecipientForm
+from django.template.loader import render_to_string
 from django.utils import timezone
 from datetime import date, datetime, timedelta
 from django.urls import reverse
@@ -447,4 +449,35 @@ def delete_budget(request):
     if request.method == "POST":
         budget_id = request.POST["budget_id"]
         Budget.objects.filter(id=budget_id).delete()
+        return redirect("sprout:budgets")
+
+def send_email(request):
+    if request.method == "POST":
+        mail_subject = request.POST["mail_subject"]
+        template = request.POST["template"] # This is a link to a message
+        email_from = request.POST["email_from"]
+        email_context = request.POST["email_context"]
+        to_email = request.user.email
+
+        if template == "budget_funded_email":
+            email_template = "budget_funded_email.html"
+            ## email is from payment
+            email_from = "help@budgetlikemagic.com"
+        elif template == "other_template_yet_decided":
+            email_template = "other_email_template.html"
+            email_from = "other@budgetlikemagic.com"
+        else:
+            pass
+
+        message = render_to_string(email_template, {
+        # "user": user, # context can be passed to the message
+        })
+
+        send_mail(
+            mail_subject,
+            message, # figure this from post
+            email_from, # figure this from post
+            [to_email,],
+            fail_silently=False,
+        )
         return redirect("sprout:budgets")

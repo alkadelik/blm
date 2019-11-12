@@ -76,7 +76,6 @@
          ]
       },
       callback: function(response){
-        console.log(response)
         $.ajax({
           type: "POST",
           url: "/sprout/payment_verification/",
@@ -84,8 +83,22 @@
             "pay_ref": response.reference,
             "csrfmiddlewaretoken": "{{csrf_token}}"
           },
-          success: function(response){
-            window.location.href = "/sprout/budgets/"
+          success: function(){
+            $.ajax({
+              type: "POST",
+              url: "/sprout/send_email/",
+              data: {
+                "mail_subject": "BLM Receipts",
+                "template": "budget_funded_email",
+                "email_from": "payment",
+                // "to_email": "{{ email }}", // This is gotten from the user account
+                "email_context": "payment_success",
+                "csrfmiddlewaretoken": "{{csrf_token}}"
+              },
+              success: function(){
+                window.location.href = "/sprout/budgets/"                
+              }
+            })
 
           // Doesn't "success" by default, mean response.status is true?
           // Thus, why the need for the if statement below?

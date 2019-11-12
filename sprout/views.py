@@ -139,8 +139,6 @@ def add_recipient(request):
         bank_name = request.POST["bank_name"]
         holder_name = request.POST["holder_name"] # Figure out the
             # best way to do this
-        print holder_name
-        print bank_name
 
         # at this point, a transfer recipient should be created
         url = "https://api.paystack.co/transferrecipient"
@@ -234,14 +232,11 @@ def link_recipient(request):
         budget_id = request.session["budget_id"]
         if request.method == "POST":
             recipient_id = request.POST["recipient_id"]
-            print "the recipient id at top is: ", recipient_id
             # Improve below to get recipient_code from form rather than call
             # Bank table
             recipient = Bank.objects.get(id=recipient_id)
             recipient_code = recipient.recipient_code
-            print "before try, recipient code is: ", recipient_code
 
-            print "the budget id inside try is: ", budget_id
             # Is there a chance the budget already has a recipient_id and code?
             budget = Budget.objects.get(id=budget_id)
             budget.recipient_id = recipient_id
@@ -255,7 +250,6 @@ def link_recipient(request):
 def pay(request):
     try:
         current_budget_id = request.session["budget_id"]
-        print current_budget_id
         budget = Budget.objects.get(id=current_budget_id)
         user = request.user
 
@@ -315,9 +309,7 @@ def payment_verification(request):
                 # Check if token exists for card
                 try:
                     token = Token.objects.get(auth_code=auth_code)
-                    print "Token is: ", token
                 except:
-                    print "Token is (not): "
                     new_token = Token(last_4=last_4, auth_code=auth_code, card_scheme = brand, user_id=request.user.id)
                     new_token.save()
 
@@ -343,7 +335,6 @@ def charge_auth(request):
         #     }]
         }
     response = requests.post(url, json=data, headers=headers).json()
-    print resposne
     # recipient_code = response["data"]["recipient_code"]
     return None
 
@@ -408,6 +399,24 @@ def transfer(request):
             elif budget.pay_count == budget.pay_qty:
                 budget.budget_status = 3
                 budget.save()
+
+            # Send success email to recipient
+            mail_subject = budget.title + " disbursement"
+            template = "budget_disbursed_email"
+            email_from = "help@budgetlikemagic.com",
+            to_email = request.user.email
+
+            message = render_to_string(email_template, {
+            # "user": user, # context can be passed to the message
+            })
+
+            send_mail(
+                mail_subject,
+                message,
+                email_from,
+                [to_email,],
+                fail_silently=False,
+            )
     else:
         print "Transfers failed with message:", response["message"]
 

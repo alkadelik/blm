@@ -136,7 +136,7 @@ a {
 .q-block{
   background-color: #FFF;
   width: 100%;
-  max-width: 360px;
+  /* max-width: 360px; */
   margin: 10px auto;
   padding: 5px;
   font-size: 1.2em;
@@ -389,13 +389,13 @@ a.budget-title {
   display: inline-block;
 }
 .status-0 {
-  background-color: grey;
+  background-color: steelblue;
 }
 .status-1, .status-2 {
   background-color: green;
 }
 .status-3 {
-  background-color: black;
+  background-color: grey;
 }
 .active {
   /* background-color: green; */
@@ -403,12 +403,13 @@ a.budget-title {
 .unfunded-actions {
   display: inline-block;
   float: right;
-  margin-top: -15px;
+  margin-top: -17px;
 }
 .unfunded-actions i {
   display: block;
   margin-top: 10px;
   font-size: 20px;
+  text-align: center;
   cursor: pointer;
 }
 /*#################*/

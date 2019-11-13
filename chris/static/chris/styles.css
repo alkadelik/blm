@@ -124,17 +124,17 @@ a {
 }
 #main {
   height: 100vh;
-  display: grid;
-  grid-template-rows: auto;
-  grid-template-columns: auto;
+  /* display: grid; */
+  /* grid-template-rows: auto; */
+  /* grid-template-columns: auto; */
   /* justify-items: center; */
-  align-content: start;
-  justify-content: center;
-  grid-row-gap: 20px;
+  /* align-content: start; */
+  /* justify-content: center; */
+  /* grid-row-gap: 20px; */
   padding: 0 20px;
   background-color: #FBE9EE;
   /* background-color: #893747; */
-  border-radius: 10px 10px 0 0;
+  /* border-radius: 10px 10px 0 0; */
 }
 .step {
   background-color: #893747;
@@ -143,16 +143,19 @@ a {
   background-color: #AA385E;
 }
 .q-block{
-  background-color: #E97C99;
+  background-color: #FFF;
   width: 100%;
+  max-width: 360px;
+  margin: 10px auto;
+  padding: 5px;
   font-size: 1.2em;
-  border-radius: 5px;
+  /* border-radius: 5px; */
 }
 .q-block label, div.budget { /* where is div.budget? */
   display: block;
-  /* width: 90%; */
+  width: 90%;
   margin: 10px;
-  color: #FBE9EE;
+  color: #893747;
 }
 .q-block input[type="radio"] {
   /* background-color: blue;
@@ -377,20 +380,28 @@ input.input-date {
 .budget ul li {
   display: inline-block;
 }
+.budget_status {
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  margin-right: 5px;
+  margin-bottom: 2px;
+}
 a.budget_title {
-  font-size: 18;
+  display: inline-block;
   font-weight: bold;
   color: inherit;
   text-decoration: none;
+  text-transform: capitalize;
 }
-a.status_0 {
-  color: grey;
+.status_0 {
+  background-color: grey;
 }
-a.status_1, a.status_2 {
-  color: green;
+.status_1, .status_2 {
+  background-color: green;
 }
-a.status_3 {
-  color: indianred;
+.status_3 {
+  background-color: black;
 }
 .active {
   /* background-color: green; */

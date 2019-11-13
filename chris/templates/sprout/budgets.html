@@ -22,20 +22,25 @@
       <!-- <transition class="menu-transition" name="fade"> -->
         <div class="q-block">
           <div class="budget">
-            <a class="budget_title status_{{budget.budget_status}}"
-              href="../budget_details/{{ budget.id }}">{{ budget.title }}</a>
+            <div class="">
+              <div class="budget_status status_{{budget.budget_status}}"></div>
+              <a class="budget_title" href="../budget_details/{{ budget.id }}">{{ budget.title }}</a>
+            </div>
             <ul class="">
               <!-- <li class="">₦{{ budget.amount|floatformat:2  }}   |</li> -->
-              <li class="">₦{{ budget.amount|hundredth|intcomma }}   |</li>
-              <li class="">{{ budget.next_date }}   |</li>
+              <li class="">₦{{ budget.amount|hundredth|intcomma }} due on</li>
+              <li class="">{{ budget.next_date }}</li>
               <li class=""></li>
               <li class="">
                 {% if budget.budget_status == 0 %}
-                <i id="{{ budget.id }}" class="fa fa-trash" onclick="delete_budget()"></i>
-                <i id="{{ budget.id }}" class="fa fa-credit-card" onclick="add_recipient()"></i>
-                  {% if budget.recipient_code == "" %}
-                  <p>not</p>
+                  {% if budget.recipient_code %}
+                  <!-- <p>linked account</p> -->
+                  <i id="{{ budget.id }}" class="fa fa-credit-card" onclick="fund()"></i>
                   {% endif %}
+                  {% if budget.recipient_code == "" %}
+                  <i id="{{ budget.id }}" class="fa fa-credit-card" onclick="add_recipient()"></i>
+                  {% endif %}
+                  <i id="{{ budget.id }}" class="fa fa-trash" onclick="delete_budget()"></i>
                 {% endif %}
               </li>
             </ul>
@@ -94,6 +99,20 @@
       },
       success: function() {
         window.location.href = "/sprout/list_recipients/"
+      }
+    });
+  }
+  function fund(){
+    var budget_id = event.target || event.srcElement
+    $.ajax({
+      url: "/sprout/pay/",
+      type: "POST",
+      data: {
+        "budget_id": budget_id.id,
+        "csrfmiddlewaretoken": "{{csrf_token}}"
+      },
+      success: function() {
+        window.location.href = "/sprout/pay/"
       }
     });
   }

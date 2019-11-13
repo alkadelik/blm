@@ -248,13 +248,18 @@ def link_recipient(request):
     return redirect("sprout:home")
 
 def pay(request):
+    try: # if id sent from frontend.
+        if request.method == "POST":
+            request.session["budget_id"] = request.POST["budget_id"]
+    except:
+        pass
+
     try:
         current_budget_id = request.session["budget_id"]
         budget = Budget.objects.get(id=current_budget_id)
         user = request.user
 
         linked_account = Bank.objects.get(id=budget.recipient_id)
-        # print "recipient is: ", linked_account.acc_no
 
         def mode():
             if budget.mode == 1: # Single disbursement
@@ -271,9 +276,10 @@ def pay(request):
             "budget": budget,
             "linked_account": linked_account,
         }
+        return render(request, "sprout/pay.html", context)
     except:
-        return redirect("sprout:home") # where else can this redirect?
-    return render(request, "sprout/pay.html", context)
+        return redirect("sprout:home")
+        # should this redirect anywhere else?
 
 # class PaymentVerification(TemplateView):
 #     template_name = "sprout/"
@@ -312,6 +318,25 @@ def payment_verification(request):
                 except:
                     new_token = Token(last_4=last_4, auth_code=auth_code, card_scheme = brand, user_id=request.user.id)
                     new_token.save()
+
+                # Send success email to recipient
+                mail_subject = "help@budgetlikemagic.com"
+                template = "budget_funded_email"
+                email_from = "help@budgetlikemagic.com"
+                to_email = request.user.email
+
+                message = render_to_string(email_template, {
+                # "amount": user,
+                # "budget": budget.title
+                })
+
+                send_mail(
+                    mail_subject,
+                    message,
+                    email_from,
+                    [to_email,],
+                    fail_silently=False,
+                )
 
                 del request.session["budget_id"]
             else:

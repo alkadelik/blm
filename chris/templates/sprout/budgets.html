@@ -22,42 +22,47 @@
       <!-- <transition class="menu-transition" name="fade"> -->
         <div class="q-block">
           <div class="budget">
-            <div class="">
-              <div class="budget_status status_{{budget.budget_status}}"></div>
-              <a class="budget_title" href="../budget_details/{{ budget.id }}">{{ budget.title }}</a>
+            <div class="status-container">
+              <div class="budget-status status-{{budget.budget_status}}"></div>
+              <a class="budget-title" href="../budget_details/{{ budget.id }}">{{ budget.title }}</a>
+            </div>
+            <div class="unfunded-actions">
+              <ul>
+                <li class="">
+                  {% if budget.budget_status == 0 %}
+                    {% if budget.recipient_code %}
+                    <!-- <p>linked account</p> -->
+                    <i id="{{ budget.id }}" class="fa fa-credit-card" onclick="add_recipient()"></i>
+                    {% endif %}
+                    {% if budget.recipient_code == "" %}
+                    <i id="{{ budget.id }}" class="fa fa-credit-card" onclick="add_recipient()"></i>
+                    {% endif %}
+                    <i id="{{ budget.id }}" class="fa fa-trash" onclick="delete_budget()"></i>
+                  {% endif %}
+                </li>
+              </ul>
             </div>
             <ul class="">
               <!-- <li class="">₦{{ budget.amount|floatformat:2  }}   |</li> -->
               <li class="">₦{{ budget.amount|hundredth|intcomma }} due on</li>
               <li class="">{{ budget.next_date }}</li>
               <li class=""></li>
-              <li class="">
-                {% if budget.budget_status == 0 %}
-                  {% if budget.recipient_code %}
-                  <!-- <p>linked account</p> -->
-                  <i id="{{ budget.id }}" class="fa fa-credit-card" onclick="fund()"></i>
-                  {% endif %}
-                  {% if budget.recipient_code == "" %}
-                  <i id="{{ budget.id }}" class="fa fa-credit-card" onclick="add_recipient()"></i>
-                  {% endif %}
-                  <i id="{{ budget.id }}" class="fa fa-trash" onclick="delete_budget()"></i>
-                {% endif %}
-              </li>
             </ul>
           </div>
         </div>
       <!-- </transition> -->
       {% endfor %}
     </div>
-
     <!-- <div id="main"> -->
     <div v-show="!all_budgets" id="main">
       <div class="gap"></div>
       {% for budget in active_budgets|slice:":5" %}
       <div class="q-block">
         <div class="budget">
-          <a class="budget_title"
-            href="../budget_details/{{ budget.id }}">{{ budget.title }}</a>
+          <div class="status-container">
+            <div class="budget-status status-{{budget.budget_status}}"></div>
+            <a class="budget-title" href="../budget_details/{{ budget.id }}">{{ budget.title }}</a>
+          </div>
           <ul class="">
             <li class="">₦{{ budget.amount|hundredth|intcomma }}   |</li>
             <li class="">{{ budget.next_date }}   |</li>

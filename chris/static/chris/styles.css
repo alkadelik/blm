@@ -142,7 +142,7 @@ a {
   font-size: 1.2em;
   /* border-radius: 5px; */
 }
-.q-block label, div.budget { /* where is div.budget? */
+.q-block label, div.budget, .new-acc { /* where is div.budget? */
   display: block;
   width: 90%;
   margin: 10px;
@@ -331,9 +331,9 @@ a {
 }
 #nav {
   background-color: #FBE9EE;
-  position: absolute;
+  /* position: absolute; */
   bottom: 25vh;
-  padding: 0 29vw;
+  /* padding: 0 29vw; */
 }
 #nav button {
   cursor: pointer;
@@ -362,6 +362,27 @@ input.input-date {
 }
 .fade-enter, .fade-leave-to {
   opacity: 0;
+}
+label.recipient-radio {
+  display: inline-block;
+  width: 95%;
+  height: 100%;
+  padding: 7px 5px;
+  padding-right: 0;
+  cursor: pointer;
+}
+label.recipient-radio span {
+  font-weight: bold;
+  display: block;
+}
+#recipient input[type="radio"] {
+  display: none;
+}
+#recipient input[type="radio"]:checked + label.recipient-radio {
+  background-color: #FBE9EE;
+}
+.new-acc {
+  margin-left: 17px;
 }
 .budget ul {
   list-style-type: none;

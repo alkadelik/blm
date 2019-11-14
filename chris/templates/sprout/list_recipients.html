@@ -9,28 +9,30 @@
   {% csrf_token %}
   <section class="fence">
     <div id="title-block">
-      <h2>Link a bank account to this budget</h2>
+      <h2>What bank account will you fund this budget from?</h2>
     </div>
     <div id="main">
       <div class="gap"></div>
       {% for bank in banks|slice:":4" %}
-      <div class="q-block">
-        <div class="budget">
-          <input type="radio" name="bank" value="{{ bank.id }}">
-            {{ bank.holder_name }} | {{ bank.acc_no }} | {{ bank.bank }}
-            <span class="delete" onclick="delete()">&times;</span>
-        </div>
+      <div class="q-block" id="recipient">
+        <!-- Note: it's important that the label is below the input -->
+        <input id="id-{{ bank.id }}" type="radio" name="bank" value="{{ bank.id }}">
+        <label class="recipient-radio" for="id-{{ bank.id }}"><span>
+          {{ bank.holder_name }}</span> {{ bank.acc_no }} | {{ bank.bank }}
+        </label>
+
+            <!-- <span class="delete" onclick="delete()">&times;</span> -->
+        <!-- </div> -->
       </div>
       {% endfor %}
+
+      <a href="{% url 'sprout:new_recipient' %}" class="new-acc">+ Add New Account</a>
       <div id="nav" class="q-block">
         <button type="button" onclick="link_recipient()"> Link Recipient </button>
       </div>
     </div>
   </section>
 </form>
-<a href="{% url "sprout:new_recipient" %}">
-  <button type="button">Add New Account</button>
-</a>
 
 <script>
   function link_recipient(){

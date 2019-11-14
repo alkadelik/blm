@@ -7,13 +7,14 @@
 {% block body %}
 <section class="fence">
   <div id="title-block">
-    <h2>Add a recipient</h2>
+    <h2>Add new account</h2>
   </div>
   <div id="main">
     <div class="gap">
     </div><div class="q-block">
-      <label>Select bank <br>
+      <label class="bank-select">
         <select class="" id="bank_code" name="">
+          <option>Select bank</option>
           {% for bank in banks %}
           <option value="{{ bank.code }}">{{ bank.name }}</option>
           {% endfor %}
@@ -21,15 +22,17 @@
       </label>
     </div>
     <div class="q-block">
-      <label>Enter account number
+      <label class="new-recipient">Enter account number
         <input type="" id="acc_no" maxlength="10" onkeyup="verify_acc()" value="">
         {% block validation %}
         <p id="validation"></p>
         {% endblock %}
       </label>
-
     </div>
-    <button onclick="submit()" id="add_bank">Add Bank</button>
+    <a class="new-acc back" onclick="goBack()">+ Link existing account</a>
+    <div id="nav" class="q-block">
+      <button onclick="submit()" id="add_bank">Add Bank</button>
+    </div>
   </div>
 </section>
 
@@ -37,7 +40,9 @@
   // var acc_no = document.getElementById("acc_no").value.trim();
   // var bank_code = document.getElementById("bank_code").value.trim();
   // var bank_name = document.getElementById("bank_code").text;
-
+  function goBack() {
+    window.history.back();
+  }
   function submit(){
     // if account validated do this:
     var acc_no = document.getElementById("acc_no").value.trim();

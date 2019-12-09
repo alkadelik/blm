@@ -32,7 +32,7 @@
                   {% if budget.budget_status == 0 %}
                     {% if budget.recipient_code %}
                     <!-- <p>linked account</p> -->
-                    <i id="{{ budget.id }}" class="fa fa-credit-card" onclick="add_recipient()"></i>
+                    <i id="{{ budget.id }}" class="fa fa-credit-card" onclick="fund()"></i>
                     {% endif %}
                     {% if budget.recipient_code == "" %}
                     <i id="{{ budget.id }}" class="fa fa-credit-card" onclick="add_recipient()"></i>

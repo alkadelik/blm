@@ -268,8 +268,8 @@ def pay(request):
                 return "Multiple disbursements"
 
         context = {
-            "pk": "pk_test_9b841d2e67007aeca304a57442891a06ad312ece",
-            # "pk": "pk_live_163e7cf486ffc7c6458472600beea80901168692",
+            # "pk": "pk_test_9b841d2e67007aeca304a57442891a06ad312ece",
+            "pk": "pk_live_163e7cf486ffc7c6458472600beea80901168692",
             "email": request.user.email,
             "mode": mode(),
             "currency": "NGN",
@@ -286,8 +286,8 @@ def pay(request):
 def payment_verification(request):
     api = "https://api.paystack.co/transaction/verify/"
     headers = {
-        'Authorization': "Bearer sk_test_7cb2764341285a8c91ec4ce0c979070188be9cce",
-        # 'Authorization': "Bearer sk_live_01ee65297a9ae5bdf8adbe9ae7cdf6163384a00e",
+        # 'Authorization': "Bearer sk_test_7cb2764341285a8c91ec4ce0c979070188be9cce",
+        'Authorization': "Bearer sk_live_01ee65297a9ae5bdf8adbe9ae7cdf6163384a00e",
     }
 
     if request.method == "POST":

@@ -25,19 +25,22 @@
       {% endblock %}
       <transition class="menu-transition" name="fade">
         <div v-if="menu" id="menu">
-          <!-- <ul> -->
-            <!-- <li><a v-show="showprev" v-on:click.prevent="display_budgets()">Budgets</li> -->
-            <!-- <li><a v-on:click="display_budgets()">Budgets</li> -->
-            <li><a href="{% url "sprout:home" %}">New Budget</a></li>
-            <li><a href="{% url "sprout:budgets" %}">My Budgets</a></li>
-            <!-- <li><a href="{% url "chris:settings" %}">Verified cards</a></li> -->
-            <li><a href="{% url "sprout:list_recipients" %}">Bank Accounts</a></li>
-            <li><a href="{% url "chris:settings" %}">Settings</a></li>
-            <!-- <li><button class="menu-btn" @click="menuAction()">&#8810;</button></li> -->
-          <!-- </ul> -->
-          <ul>
-            <li><a href="{% url "chris:logout" %}">Logout</a></li>
-          </ul>
+          <div class="menu-wrapper">
+            <!-- <ul> -->
+              <!-- <li><a v-show="showprev" v-on:click.prevent="display_budgets()">Budgets</li> -->
+              <!-- <li><a v-on:click="display_budgets()">Budgets</li> -->
+              <li><a href="{% url "sprout:home" %}">New Budget</a></li>
+              <li><a href="{% url "sprout:budgets" %}">My Budgets</a></li>
+              <!-- <li><a href="{% url "chris:settings" %}">Verified cards</a></li> -->
+              <li><a href="{% url "sprout:list_recipients" %}">Bank Accounts</a></li>
+              <li><a href="{% url "chris:settings" %}">Settings</a></li>
+            <!-- </ul> -->
+            <ul>
+              <li><a href="{% url "chris:logout" %}">Logout</a></li>
+            </ul>
+          </div>
+          <div class="close-menu" @click="menuAction()">
+          </div>
         </div>
       </transition>
       {% else %}

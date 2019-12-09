@@ -39,7 +39,9 @@
               <li><a href="{% url "chris:logout" %}">Logout</a></li>
             </ul>
           </div>
-          <div class="close-menu" @click="menuAction()">
+          <div class="close-menu" @click="menuClose()">
+            <!-- Different method used becuase if the same one used,
+            clicking before menu completely fades re-opens menu -->
           </div>
         </div>
       </transition>

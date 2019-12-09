@@ -59,6 +59,11 @@ new Vue({
         this.menu = false
       }
     },
+    menuClose() {
+      if(this.menu == true){
+        this.menu = false
+      }
+    },
     toggleBudgetViews() {
       this.all_budgets = !this.all_budgets;
     }

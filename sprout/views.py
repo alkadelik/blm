@@ -325,25 +325,25 @@ def payment_verification(request):
                     new_token = Token(last_4=last_4, auth_code=auth_code, card_scheme = brand, user_id=request.user.id)
                     new_token.save()
 
-                print "send mail here"
-                # # Send success email to recipient
-                # mail_subject = "help@budgetlikemagic.com"
-                # template = "budget_funded_email"
-                # email_from = "help@budgetlikemagic.com"
-                # to_email = request.user.email
-                #
-                # message = render_to_string(email_template, {
-                # # "amount": user,
-                # # "budget": budget.title
-                # })
-                #
-                # send_mail(
-                #     mail_subject,
-                #     message,
-                #     email_from,
-                #     [to_email,],
-                #     fail_silently=False,
-                # )
+                # Send success email to recipient
+                # Ideally send it to a queue here
+                mail_subject = "You've funded your budget"
+                email_template = "budget_funded_email.html"
+                email_from = "yass@budgetlikemagic.com"
+                to_email = request.user.email
+
+                message = render_to_string(email_template, {
+                    "amount": budget.amount_funded,
+                    "budget": budget.title,
+                })
+
+                send_mail(
+                    mail_subject,
+                    message,
+                    email_from,
+                    [to_email,],
+                    fail_silently=False,
+                )
 
                 del request.session["budget_id"]
             else:

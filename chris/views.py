@@ -36,9 +36,6 @@ def register(request):
     if request.method == "POST":
         form = RegistrationForm(request.POST)
         if form.is_valid():
-            user = form.save(commit = False)
-            user.is_active = False
-            # NB. I used a try statement below without success
             if User.objects.filter(username=request.POST["email"]).exists():
                 form = RegistrationForm()
                 context = {
@@ -46,8 +43,10 @@ def register(request):
                     "message": "User already exists"
                 }
                 return render(request, 'chris/register.html', context)
-            else:
-                user.save()
+
+            user = form.save(commit = False)
+            user.is_active = False
+            user.save()
 
             current_site = get_current_site(request)
             mail_subject = "Activate your BLM account."

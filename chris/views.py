@@ -36,17 +36,17 @@ def register(request):
     if request.method == "POST":
         form = RegistrationForm(request.POST)
         if form.is_valid():
-            if User.objects.filter(username=request.POST["email"]).exists():
+            user = form.save(commit = False)
+            user.is_active = False
+            try:
+                user.save()
+            except:
                 form = RegistrationForm()
                 context = {
                     "form": form,
-                    "message": "User already exists"
-                }
+                    "message": "User already exists",
+                    }
                 return render(request, 'chris/register.html', context)
-
-            user = form.save(commit = False)
-            user.is_active = False
-            user.save()
 
             current_site = get_current_site(request)
             mail_subject = "Activate your BLM account."

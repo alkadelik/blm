@@ -92,6 +92,9 @@ a {
   font-size: 0.8em;
   margin-top: 20px;
 }
+#index .p-register {
+  margin-top: 60px;
+}
 .forgot-password {
   position: relative;
   top: -70px;

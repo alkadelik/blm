@@ -86,17 +86,17 @@
           <div class="gap"></div>
           <div class="q-block">
             <label for="">Name this budget
-              <input class="capitalise" type="text" name="title" value="" :maxlength="charmax" v-model="budget">
+              <input class="capitalise" type="text" name="title" value="" :maxlength="charmax" v-model="budget" required autofocus>
               <div class="charcount" v-text="charcount()"></div>
             </label>
           </div>
           <div class="q-block">
             <label for="" class="curious-case">How much do you want to set aside for <span class="highlight">[[budget]]</span> now?
-              <input type="text" name="amount" value=""></label>
+              <input type="text" name="amount" value="" required></label>
           </div>
           <div class="q-block">
             <label for="">What day do you want it disbursed?
-              <input class="input-date" type="date" name="next_date"  placeholder=>
+              <input class="input-date" type="date" name="next_date" required>
             </label>
           </div>
           <div id="nav" class="q-block">

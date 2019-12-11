@@ -25,8 +25,14 @@
         <p>Funded with: Card details</p>
         <p>Budget status: {{ budget.budget_status}}</p>
       </div>
+      <a class="new-acc back" onclick="goBack()">Back to budgets</a>
     </div>
 
   </div>
 </section>
 {% endblock %}
+<script type="text/javascript">
+  function goBack() {
+    window.history.back();
+  }
+</script>

@@ -27,11 +27,9 @@
       {% endfor %}
 
       <a href="{% url 'sprout:new_recipient' %}" class="new-acc">+ Add New Account</a>
-      {% if budget_id %}
       <div id="nav" class="q-block">
         <button type="button" onclick="link_recipient()"> Link Recipient </button>
       </div>
-      {% endif %}
     </div>
   </section>
 </form>

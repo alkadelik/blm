@@ -5,23 +5,21 @@
 {% endblock %}
 
 {% block body %}
-<form method="post">
-  {% csrf_token %}
-  {{ form.as_p }}
-  <button type="submit">Update</button>
-</form>
+
 <section class="fence">
+  <form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Update</button>
+  </form>
+
   <div id="title-block">
     <h2>Settings</h2>
   </div>
   <div id="main">
-    <div class="gap">
-    </div>
-    <div class="q-block">
-      <label class="bank">
-        Password
-      </label>
-    </div>
+
+    <!-- <div class="gap">
+    </div> -->
     <div class="q-block">
       <label class="bank">
         Password

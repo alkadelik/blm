@@ -86,13 +86,13 @@
           <div class="gap"></div>
           <div class="q-block">
             <label for="">Name this budget
-              <input class="capitalise" type="text" name="title" value="" :maxlength="charmax" v-model="budget" required autofocus>
+              <input class="capitalise" type="text" name="title" value="" :maxlength="charmax" v-model="budget" placeholder="Transport" required autofocus>
               <div class="charcount" v-text="charcount()"></div>
             </label>
           </div>
           <div class="q-block">
             <label for="" class="curious-case">How much do you want to set aside for <span class="highlight">[[budget]]</span> now?
-              <input type="text" name="amount" value="" required></label>
+              <input type="text" name="amount" value="" required onkeypress="return (event.charCode !=8 && event.charCode ==0 || (event.charCode >= 48 && event.charCode <= 57))" maxlength="6" placeholder="0.00"></label>
           </div>
           <div class="q-block">
             <label for="">What day do you want it disbursed?

@@ -27,11 +27,14 @@ class HomeView(TemplateView):
             new_budget.updated = timezone.now()
 
             # From form:
-            amount = int(request.POST["amount"]) * 100 # amount always in kobo
-            next_date = datetime.strptime(request.POST["next_date"], "%Y-%m-%d")
-            # interval = ""
+            try:
+                amount = int(request.POST["amount"]) * 100 # amount always in kobo
+                next_date = datetime.strptime(request.POST["next_date"], "%Y-%m-%d")
+                new_budget.title = request.POST["title"]
+            except:
+                # Nothing has been posted
+                return redirect("sprout:home")
 
-            new_budget.title = request.POST["title"]
             new_budget.next_date = next_date
             new_budget.mode = "1"
             # new_budget.mode = request.POST["mode"]
@@ -143,8 +146,8 @@ def add_recipient(request):
         # at this point, a transfer recipient should be created
         url = "https://api.paystack.co/transferrecipient"
         headers = {
-            # "Authorization": "Bearer sk_test_7cb2764341285a8c91ec4ce0c979070188be9cce",
-            "Authorization": "Bearer sk_live_01ee65297a9ae5bdf8adbe9ae7cdf6163384a00e"
+            "Authorization": "Bearer sk_test_7cb2764341285a8c91ec4ce0c979070188be9cce",
+            # "Authorization": "Bearer sk_live_01ee65297a9ae5bdf8adbe9ae7cdf6163384a00e"
         }
 
         # This is updating my live user
@@ -214,6 +217,7 @@ class ListRecipients(TemplateView):
 
             context = {
                 "banks": banks,
+                "budget_id": budget_id,
             }
             # return redirect("sprout:list_recipients")
             return render(request, self.template_name, context)
@@ -248,6 +252,7 @@ def link_recipient(request):
     return redirect("sprout:home")
 
 def pay(request):
+    # if request.session["budget_id"]:
     try: # if id sent from frontend.
         if request.method == "POST":
             request.session["budget_id"] = request.POST["budget_id"]
@@ -268,8 +273,8 @@ def pay(request):
                 return "Multiple disbursements"
 
         context = {
-            # "pk": "pk_test_9b841d2e67007aeca304a57442891a06ad312ece",
-            "pk": "pk_live_163e7cf486ffc7c6458472600beea80901168692",
+            "pk": "pk_test_9b841d2e67007aeca304a57442891a06ad312ece",
+            # "pk": "pk_live_163e7cf486ffc7c6458472600beea80901168692",
             "email": request.user.email,
             "mode": mode(),
             "currency": "NGN",
@@ -286,8 +291,8 @@ def pay(request):
 def payment_verification(request):
     api = "https://api.paystack.co/transaction/verify/"
     headers = {
-        # 'Authorization': "Bearer sk_test_7cb2764341285a8c91ec4ce0c979070188be9cce",
-        'Authorization': "Bearer sk_live_01ee65297a9ae5bdf8adbe9ae7cdf6163384a00e",
+        'Authorization': "Bearer sk_test_7cb2764341285a8c91ec4ce0c979070188be9cce",
+        # 'Authorization': "Bearer sk_live_01ee65297a9ae5bdf8adbe9ae7cdf6163384a00e",
     }
 
     if request.method == "POST":
@@ -312,31 +317,33 @@ def payment_verification(request):
                 budget.budget_status = 1
                 budget.save()
 
-                # Check if token exists for card
+                # Check if token already exists for card
                 try:
                     token = Token.objects.get(auth_code=auth_code)
                 except:
+                    # First ask user if they'd like to save card
                     new_token = Token(last_4=last_4, auth_code=auth_code, card_scheme = brand, user_id=request.user.id)
                     new_token.save()
 
-                # Send success email to recipient
-                mail_subject = "help@budgetlikemagic.com"
-                template = "budget_funded_email"
-                email_from = "help@budgetlikemagic.com"
-                to_email = request.user.email
-
-                message = render_to_string(email_template, {
-                # "amount": user,
-                # "budget": budget.title
-                })
-
-                send_mail(
-                    mail_subject,
-                    message,
-                    email_from,
-                    [to_email,],
-                    fail_silently=False,
-                )
+                print "send mail here"
+                # # Send success email to recipient
+                # mail_subject = "help@budgetlikemagic.com"
+                # template = "budget_funded_email"
+                # email_from = "help@budgetlikemagic.com"
+                # to_email = request.user.email
+                #
+                # message = render_to_string(email_template, {
+                # # "amount": user,
+                # # "budget": budget.title
+                # })
+                #
+                # send_mail(
+                #     mail_subject,
+                #     message,
+                #     email_from,
+                #     [to_email,],
+                #     fail_silently=False,
+                # )
 
                 del request.session["budget_id"]
             else:
@@ -348,8 +355,8 @@ def payment_verification(request):
 def charge_auth(request):
     url = "https://api.paystack.co/transaction/charge_authorization"
     headers = {
-        # 'Authorization': "Bearer sk_test_7cb2764341285a8c91ec4ce0c979070188be9cce",
-        'Authorization': "Bearer sk_live_01ee65297a9ae5bdf8adbe9ae7cdf6163384a00e",
+        'Authorization': "Bearer sk_test_7cb2764341285a8c91ec4ce0c979070188be9cce",
+        # 'Authorization': "Bearer sk_live_01ee65297a9ae5bdf8adbe9ae7cdf6163384a00e",
     }
     data = {
         # {"authorization_code": "AUTH_67wpn7vbtq",
@@ -366,8 +373,8 @@ def charge_auth(request):
 def transfer(request):
     url = "https://api.paystack.co/transfer/bulk"
     headers = {
-        # "Authorization": "Bearer sk_test_7cb2764341285a8c91ec4ce0c979070188be9cce",
-        "Authorization": "Bearer sk_live_01ee65297a9ae5bdf8adbe9ae7cdf6163384a00e"
+        "Authorization": "Bearer sk_test_7cb2764341285a8c91ec4ce0c979070188be9cce",
+        # "Authorization": "Bearer sk_live_01ee65297a9ae5bdf8adbe9ae7cdf6163384a00e"
     }
 
     # Consider making it such that all budgets that are stored in the db where a next_date
@@ -486,32 +493,46 @@ def delete_budget(request):
         return redirect("sprout:budgets")
 
 def send_email(request):
-    if request.method == "POST":
-        mail_subject = request.POST["mail_subject"]
-        template = request.POST["template"] # This is a link to a message
-        email_from = request.POST["email_from"]
-        email_context = request.POST["email_context"]
-        to_email = request.user.email
+    mail_subject = "Test mail is working"
+    message = render_to_string("test_email.html")
+    email_from = "me@budgetlikemagic.com"
+    to_email = "debola_adeola@yahoo.com"
 
-        if template == "budget_funded_email":
-            email_template = "budget_funded_email.html"
-            ## email is from payment
-            email_from = "help@budgetlikemagic.com"
-        elif template == "other_template_yet_decided":
-            email_template = "other_email_template.html"
-            email_from = "other@budgetlikemagic.com"
-        else:
-            pass
+    send_mail(
+        mail_subject,
+        message, # figure this from post
+        email_from, # figure this from post
+        [to_email,],
+        fail_silently=False,
+    )
+    return redirect("sprout:budgets")
 
-        message = render_to_string(email_template, {
-        # "user": user, # context can be passed to the message
-        })
-
-        send_mail(
-            mail_subject,
-            message, # figure this from post
-            email_from, # figure this from post
-            [to_email,],
-            fail_silently=False,
-        )
-        return redirect("sprout:budgets")
+    # if request.method == "POST":
+    #     mail_subject = request.POST["mail_subject"]
+    #     template = request.POST["template"] # This is a link to a message
+    #     email_from = request.POST["email_from"]
+    #     email_context = request.POST["email_context"]
+    #     to_email = request.user.email
+    #
+    #     if template == "budget_funded_email":
+    #         email_template = "budget_funded_email.html"
+    #         ## email is from payment
+    #         email_from = "help@budgetlikemagic.com"
+    #     elif template == "other_template_yet_decided":
+    #         email_template = "other_email_template.html"
+    #         email_from = "other@budgetlikemagic.com"
+    #     else:
+    #         pass
+    #
+    #     message = render_to_string(email_template, {
+    #     # "user": user, # context can be passed to the message
+    #     })
+    #
+    #     send_mail(
+    #         mail_subject,
+    #         message, # figure this from post
+    #         email_from, # figure this from post
+    #         [to_email,],
+    #         fail_silently=False,
+    #     )
+    #     return redirect("sprout:budgets")
